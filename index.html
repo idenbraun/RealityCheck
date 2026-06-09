@@ -869,8 +869,15 @@
       .year-decimal-timer { padding: 4rem 1rem 0.5rem; }
       .big-year-number { font-size: 3.5rem; }
       .secondary-stats { gap: 2rem; }
-      .life-grid { grid-template-columns: repeat(25, 1fr); gap: 4px; max-width: 100%; }
-      .square { min-width: 12px; }
+      .life-grid {
+        grid-template-columns: repeat(25, 1fr);
+        gap: 2px;
+        max-width: calc(100vw - 1.6rem);
+      }
+      .square {
+        min-width: auto;
+        width: 100%;
+      }
       .quote-carousel { height: 5.5rem; max-width: 100%; }
       .quote-text { font-size: 0.75rem; }
       .share-btn-bottom { padding: 0.6rem 2rem; }
