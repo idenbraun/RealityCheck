@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>reality check • прожитые дни</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: #0a0a0a;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1.5rem;
+      padding-bottom: 0;
+      color: #e0e0e0;
+      letter-spacing: -0.01em;
+      background: radial-gradient(circle at 50% 40%, #121212 0%, #050505 100%);
+    }
+
+    .page-content {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 780px;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2.5rem;
+    }
+
+    /* Ввод даты */
+    .date-input-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      width: 100%;
+      background: rgba(12, 12, 12, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid #262626;
+      border-radius: 2.5rem;
+      padding: 2.5rem 2rem 3rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      transition: all 0.5s ease;
+    }
+
+    .input-heading {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: #6a6a6a;
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    .selectors {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 0.4rem;
+      background: transparent;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .select-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .select-wrapper label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: #5a5a5a;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: #141414;
+      border: 1px solid #2c2c2c;
+      border-radius: 2.5rem;
+      padding: 0.9rem 2.4rem 0.9rem 1.2rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #eaeaea;
+      cursor: pointer;
+      text-align: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 0.7rem center;
+      background-size: 1.1rem;
+      font-family: inherit;
+      transition: border-color 0.25s, background-color 0.25s;
+      width: 100%;
+    }
+
+    select:hover {
+      border-color: #555;
+      background-color: #1c1c1c;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #888;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+    }
+
+    .reality-btn {
+      background: transparent;
+      border: 1px solid #3a3a3a;
+      color: #cccccc;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      padding: 1rem 3.5rem;
+      border-radius: 3rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      margin-top: 0.8rem;
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .reality-btn:hover {
+      background: #ffffff;
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      letter-spacing: 0.45em;
+    }
+
+    .reality-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Панель результатов */
+    .stats-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      gap: 2.5rem;
+      transition: opacity 0.4s ease;
+    }
+
+    .stats-panel.active {
+      display: flex;
+    }
+
+    /* Главный акцент — десятичное число лет с живым потоком */
+    .year-decimal-timer {
+      background: transparent;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .big-year-number {
+      font-size: clamp(4rem, 12vw, 7rem);
+      font-weight: 350;
+      letter-spacing: -0.02em;
+      color: #f5f5f5;
+      line-height: 1;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 30px rgba(255,255,255,0.08);
+      font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
+      word-break: break-word;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+    }
+
+    .year-integer {
+      color: #f5f5f5;
+    }
+
+    .year-dot {
+      color: #a0a0a0;
+      font-size: 0.7em;
+      margin: 0 0.02em;
+    }
+
+    .year-decimal-flow {
+      color: #a0a0a0;
+      font-size: 0.7em;
+      letter-spacing: 0.04em;
+      display: inline-block;
+    }
+
+    .year-subtitle {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: #5a5a5a;
+      margin-top: 0.2rem;
+    }
+
+    /* Второстепенные показатели — воздушные, без фона */
+    .secondary-stats {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      width: 100%;
+      opacity: 0.7;
+      padding: 0.5rem 1rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 75px;
+    }
+
+    .stat-number {
+      font-size: 1.7rem;
+      font-weight: 350;
+      letter-spacing: -0.02em;
+      color: #9a9a9a;
+      line-height: 1.1;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: #4a4a4a;
+      margin-top: 0.3rem;
+    }
+
+    /* Сетка жизни */
+    .grid-section {
+      width: 100%;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .grid-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: #4a4a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .grid-title span {
+      background: #141414;
+      padding: 0.2rem 1rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      color: #909090;
+      border: 1px solid #262626;
+    }
+
+    .optimistic-remaining {
+      font-size: 0.7rem;
+      font-weight: 350;
+      letter-spacing: 0.05em;
+      color: #6a6a6a;
+      opacity: 0.7;
+      margin-bottom: 0.6rem;
+    }
+
+    .life-grid {
+      display: grid;
+      grid-template-columns: repeat(25, 1fr);
+      gap: 5px;
+      background: transparent;
+      max-width: 650px;
+      margin: 0 auto;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .square {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      min-width: 12px;
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      transition: background 0.2s ease, border-color 0.2s, box-shadow 0.2s ease, transform 0.15s ease;
+      cursor: default;
+    }
+
+    .square.filled {
+      background: #d4d4d4;
+      border-color: #6a6a6a;
+      box-shadow: 0 0 8px rgba(220,220,220,0.15);
+    }
+
+    .square:hover {
+      border-color: #888;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+      transform: scale(1.15);
+      z-index: 2;
+      position: relative;
+    }
+
+    .square.filled:hover {
+      background: #ffffff;
+      border-color: #aaa;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Карусель цитат */
+    .quote-carousel {
+      width: 100%;
+      max-width: 650px;
+      min-height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.2rem;
+    }
+
+    .quote-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 5rem;
+    }
+
+    .quote-text {
+      font-size: 0.7rem;
+      font-weight: 350;
+      letter-spacing: 0.04em;
+      color: #5a5a5a;
+      opacity: 0.7;
+      line-height: 1.6;
+      transition: opacity 0.8s ease;
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: #444;
+      margin-top: 0.3rem;
+      font-style: normal;
+      transition: opacity 0.8s ease;
+    }
+
+    /* Футер */
+    .footer {
+      flex-shrink: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      color: #3a3a3a;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      padding: 1.8rem 1rem 1.2rem;
+      background: transparent;
+      border-top: 1px solid #181818;
+      margin-top: auto;
+    }
+
+    .footer .links {
+      display: flex;
+      gap: 2.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer a {
+      color: #6a6a6a;
+      text-decoration: none;
+      transition: color 0.25s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    .footer a:hover {
+      color: #c0c0c0;
+      border-bottom-color: #444;
+    }
+
+    .footer .year {
+      color: #333;
+      margin-top: 0.1rem;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 0.8rem;
+        padding-bottom: 0;
+      }
+      .selectors {
+        gap: 0.2rem;
+      }
+      select {
+        padding: 0.7rem 1.5rem 0.7rem 0.6rem;
+        font-size: 1rem;
+      }
+      .big-year-number {
+        font-size: 3.5rem;
+      }
+      .secondary-stats {
+        gap: 2rem;
+      }
+      .life-grid {
+        grid-template-columns: repeat(25, 1fr);
+        gap: 3px;
+      }
+      .square {
+        min-width: 8px;
+      }
+      .quote-carousel {
+        min-height: 6rem;
+      }
+      .quote-inner {
+        min-height: 6rem;
+      }
+      .quote-text {
+        font-size: 0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-content">
+    <div class="container">
+      <!-- Форма ввода даты -->
+      <div id="dateInputPanel" class="date-input-panel">
+        <div class="input-heading">Укажите свою дату рождения</div>
+        <div class="selectors">
+          <div class="select-wrapper">
+            <label>День</label>
+            <select id="daySelect"></select>
+          </div>
+          <div class="select-wrapper">
+            <label>Месяц</label>
+            <select id="monthSelect"></select>
+          </div>
+          <div class="select-wrapper">
+            <label>Год</label>
+            <select id="yearSelect"></select>
+          </div>
+        </div>
+        <button id="realityButton" class="reality-btn">Reality check</button>
+      </div>
+
+      <!-- Панель с результатами -->
+      <div id="statsPanel" class="stats-panel">
+        <!-- Главный акцент: десятичное представление года с живым потоком -->
+        <div class="year-decimal-timer">
+          <div class="big-year-number">
+            <span class="year-integer" id="yearInteger">0</span>
+            <span class="year-dot">.</span>
+            <span class="year-decimal-flow" id="yearDecimalFlow">00000</span>
+          </div>
+          <div class="year-subtitle">прожитых лет</div>
+        </div>
+
+        <!-- Второстепенные показатели: дни, недели, месяцы -->
+        <div class="secondary-stats">
+          <div class="stat-item">
+            <div class="stat-number" id="daysLived">0</div>
+            <div class="stat-label">дней</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="weeksLived">0</div>
+            <div class="stat-label">недель</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="monthsLived">0</div>
+            <div class="stat-label">месяцев</div>
+          </div>
+        </div>
+
+        <!-- Сетка жизни -->
+        <div class="grid-section">
+          <div class="grid-title">
+            <span id="gridSummary">прожито 0 из 100 лет</span>
+          </div>
+          <div class="optimistic-remaining" id="optimisticRemaining">в лучшем случае осталось ~80</div>
+          <div id="lifeGrid" class="life-grid"></div>
+        </div>
+
+        <!-- Карусель цитат -->
+        <div class="quote-carousel">
+          <div class="quote-inner">
+            <div class="quote-text" id="quoteText"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Футер -->
+  <div class="footer">
+    <div class="links">
+      <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
+      <a href="idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+    </div>
+    <div class="year">© 2026</div>
+  </div>
+
+  <script>
+    (function() {
+      const TOTAL_SQUARES = 100;
+      const UPPER_LIFESPAN = 80;
+
+      // Цитаты
+      const quotes = [
+        {
+          text: '«Ты живёшь так, будто будешь жить вечно. Ты не думаешь о своей хрупкости. Ты не замечаешь, сколько времени уже прошло. Тратишь его, как будто у тебя бесконечный запас.»',
+          author: '— Сенека'
+        },
+        {
+          text: '«Человек — это не что иное, как сумма его поступков.»',
+          author: '— Жан-Поль Сартр'
+        },
+        {
+          text: '«Ты уже умираешь. Прямо сейчас.»',
+          author: '— Тайлер Дёрден, «Бойцовский клуб»'
+        },
+        {
+          text: '«Каждый день — это маленькая жизнь.»',
+          author: '— Марк Аврелий'
+        }
+      ];
+
+      let currentQuoteIndex = 0;
+      let quoteIntervalId = null;
+
+      function log(message, data = null) {
+        const timestamp = new Date().toLocaleTimeString('ru-RU', { hour12: false });
+        if (data !== null) {
+          console.log(`[${timestamp}] ${message}`, data);
+        } else {
+          console.log(`[${timestamp}] ${message}`);
+        }
+      }
+
+      const daySelect = document.getElementById('daySelect');
+      const monthSelect = document.getElementById('monthSelect');
+      const yearSelect = document.getElementById('yearSelect');
+      const realityBtn = document.getElementById('realityButton');
+      const dateInputPanel = document.getElementById('dateInputPanel');
+      const statsPanel = document.getElementById('statsPanel');
+      
+      const yearIntegerEl = document.getElementById('yearInteger');
+      const yearDecimalFlowEl = document.getElementById('yearDecimalFlow');
+      const daysLivedEl = document.getElementById('daysLived');
+      const weeksLivedEl = document.getElementById('weeksLived');
+      const monthsLivedEl = document.getElementById('monthsLived');
+      const lifeGridEl = document.getElementById('lifeGrid');
+      const gridSummaryEl = document.getElementById('gridSummary');
+      const optimisticRemainingEl = document.getElementById('optimisticRemaining');
+      const quoteTextEl = document.getElementById('quoteText');
+      const quoteAuthorEl = document.getElementById('quoteAuthor');
+
+      let birthDate = null;
+      let animationFrameId = null;
+      let currentGridYear = -1;
+      let frameCount = 0;
+
+      // Карусель цитат
+      function showQuote(index) {
+        const quote = quotes[index];
+        quoteTextEl.style.opacity = '0';
+        quoteAuthorEl.style.opacity = '0';
+        
+        setTimeout(() => {
+          quoteTextEl.textContent = quote.text;
+          quoteAuthorEl.textContent = quote.author;
+          quoteTextEl.style.opacity = '0.7';
+          quoteAuthorEl.style.opacity = '1';
+        }, 400);
+      }
+
+      function startQuoteCarousel() {
+        if (quoteIntervalId) clearInterval(quoteIntervalId);
+        currentQuoteIndex = 0;
+        showQuote(currentQuoteIndex);
+        
+        quoteIntervalId = setInterval(() => {
+          currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+          showQuote(currentQuoteIndex);
+        }, 6000);
+        
+        log('Карусель цитат запущена');
+      }
+
+      function stopQuoteCarousel() {
+        if (quoteIntervalId) {
+          clearInterval(quoteIntervalId);
+          quoteIntervalId = null;
+          log('Карусель цитат остановлена');
+        }
+      }
+
+      function populateDays(month, year) {
+        const currentDay = daySelect.value ? parseInt(daySelect.value, 10) : null;
+        daySelect.innerHTML = '';
+        const daysInMonth = new Date(year, month, 0).getDate();
+        for (let d = 1; d <= daysInMonth; d++) {
+          const option = document.createElement('option');
+          option.value = d;
+          option.textContent = d;
+          if (currentDay === d) option.selected = true;
+          daySelect.appendChild(option);
+        }
+        if (currentDay && currentDay > daysInMonth) {
+          daySelect.value = daysInMonth;
+        } else if (currentDay && currentDay <= daysInMonth) {
+          daySelect.value = currentDay;
+        } else {
+          daySelect.value = Math.min(1, daysInMonth);
+        }
+      }
+
+      function populateMonths() {
+        monthSelect.innerHTML = '';
+        const monthNames = [
+          'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+        ];
+        monthNames.forEach((name, index) => {
+          const option = document.createElement('option');
+          option.value = index + 1;
+          option.textContent = name;
+          monthSelect.appendChild(option);
+        });
+        monthSelect.value = 1;
+      }
+
+      function populateYears() {
+        yearSelect.innerHTML = '';
+        const currentYear = new Date().getFullYear();
+        const startYear = currentYear - 100;
+        const endYear = currentYear - 1;
+        for (let y = endYear; y >= startYear; y--) {
+          const option = document.createElement('option');
+          option.value = y;
+          option.textContent = y;
+          yearSelect.appendChild(option);
+        }
+        if (yearSelect.querySelector(`option[value="1995"]`)) {
+          yearSelect.value = 1995;
+        } else {
+          yearSelect.value = endYear;
+        }
+      }
+
+      function updateDayOptionsBasedOnMonthYear() {
+        const month = parseInt(monthSelect.value, 10);
+        const year = parseInt(yearSelect.value, 10);
+        if (!isNaN(month) && !isNaN(year)) {
+          populateDays(month, year);
+        }
+      }
+
+      populateMonths();
+      populateYears();
+      updateDayOptionsBasedOnMonthYear();
+
+      monthSelect.addEventListener('change', () => {
+        log('Изменён месяц', { month: monthSelect.value });
+        updateDayOptionsBasedOnMonthYear();
+      });
+      
+      yearSelect.addEventListener('change', () => {
+        log('Изменён год', { year: yearSelect.value });
+        updateDayOptionsBasedOnMonthYear();
+      });
+      
+      daySelect.addEventListener('change', () => {
+        log('Изменён день', { day: daySelect.value });
+      });
+
+      function getBirthDateFromSelects() {
+        const day = parseInt(daySelect.value, 10);
+        const month = parseInt(monthSelect.value, 10);
+        const year = parseInt(yearSelect.value, 10);
+        if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
+        return new Date(year, month - 1, day);
+      }
+
+      function computeExactDecimalYears(birth) {
+        const now = new Date();
+        const diffMs = now - birth;
+        const msInYear = 365.25 * 24 * 60 * 60 * 1000;
+        return diffMs / msInYear;
+      }
+
+      function computeLivedDetails(birth) {
+        const now = new Date();
+        let diffMs = now - birth;
+        if (diffMs < 0) return { days: 0, weeks: 0, months: 0, years: 0 };
+
+        const msInDay = 1000 * 60 * 60 * 24;
+        const totalDays = Math.floor(diffMs / msInDay);
+        const totalWeeks = Math.floor(totalDays / 7);
+        
+        let years = now.getFullYear() - birth.getFullYear();
+        let months = now.getMonth() - birth.getMonth();
+        let daysAdjust = now.getDate() - birth.getDate();
+        
+        if (daysAdjust < 0) {
+          months--;
+          const prevMonthDate = new Date(now.getFullYear(), now.getMonth(), 0);
+          daysAdjust += prevMonthDate.getDate();
+        }
+        
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+        
+        const totalMonths = years * 12 + months;
+        
+        return { days: totalDays, weeks: totalWeeks, months: totalMonths, years: years };
+      }
+
+      function renderGrid(livedYears) {
+        const clampedYears = Math.min(livedYears, TOTAL_SQUARES);
+        if (clampedYears === currentGridYear) return;
+        currentGridYear = clampedYears;
+
+        lifeGridEl.innerHTML = '';
+        for (let i = 0; i < TOTAL_SQUARES; i++) {
+          const square = document.createElement('div');
+          square.className = 'square';
+          if (i < clampedYears) square.classList.add('filled');
+          lifeGridEl.appendChild(square);
+        }
+        
+        gridSummaryEl.textContent = `прожито ${clampedYears} из ${TOTAL_SQUARES} лет`;
+        
+        const optimisticRemaining = Math.max(0, UPPER_LIFESPAN - clampedYears);
+        optimisticRemainingEl.textContent = `в лучшем случае осталось ~${optimisticRemaining}`;
+        
+        log('Сетка обновлена', { прожито: clampedYears, осталось: optimisticRemaining });
+      }
+
+      function updateLiveCounter() {
+        if (!birthDate) return;
+        
+        frameCount++;
+        const decimalYears = computeExactDecimalYears(birthDate);
+        const decimalString = decimalYears.toFixed(7);
+        const parts = decimalString.split('.');
+        
+        yearIntegerEl.textContent = parts[0];
+        yearDecimalFlowEl.textContent = parts[1];
+        
+        const details = computeLivedDetails(birthDate);
+        daysLivedEl.textContent = details.days.toLocaleString();
+        weeksLivedEl.textContent = details.weeks.toLocaleString();
+        monthsLivedEl.textContent = details.months.toLocaleString();
+        
+        renderGrid(details.years);
+        
+        if (frameCount % 60 === 0) {
+          log('Таймер обновлён', { 
+            лет: decimalYears.toFixed(7), 
+            дней: details.days, 
+            недель: details.weeks, 
+            месяцев: details.months 
+          });
+        }
+      }
+
+      function startRealtimeUpdates() {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        log('Запущен таймер реального времени');
+        frameCount = 0;
+        function tick() {
+          updateLiveCounter();
+          animationFrameId = requestAnimationFrame(tick);
+        }
+        tick();
+      }
+
+      function stopRealtimeUpdates() {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+          log('Таймер остановлен');
+        }
+      }
+
+      function showStatsPanel() {
+        dateInputPanel.style.display = 'none';
+        statsPanel.classList.add('active');
+        currentGridYear = -1;
+        log('Переключение на панель результатов');
+        if (birthDate) {
+          updateLiveCounter();
+          startRealtimeUpdates();
+        }
+        startQuoteCarousel();
+      }
+
+      function showInputPanel() {
+        stopRealtimeUpdates();
+        stopQuoteCarousel();
+        statsPanel.classList.remove('active');
+        dateInputPanel.style.display = 'flex';
+        log('Возврат к форме ввода');
+      }
+
+      realityBtn.addEventListener('click', () => {
+        log('Нажата кнопка Reality check');
+        
+        const day = parseInt(daySelect.value, 10);
+        const month = parseInt(monthSelect.value, 10);
+        const year = parseInt(yearSelect.value, 10);
+        
+        log('Выбранная дата', { день: day, месяц: month, год: year });
+        
+        const newBirthDate = getBirthDateFromSelects();
+        if (!newBirthDate) {
+          log('ОШИБКА: Некорректная дата рождения');
+          alert('Пожалуйста, выберите корректную дату рождения.');
+          return;
+        }
+        if (newBirthDate > new Date()) {
+          log('ОШИБКА: Дата рождения в будущем', { newBirthDate });
+          alert('Дата рождения не может быть в будущем.');
+          return;
+        }
+        
+        stopRealtimeUpdates();
+        birthDate = newBirthDate;
+        log('Установлена дата рождения', { birthDate: birthDate.toLocaleDateString('ru-RU') });
+        showStatsPanel();
+      });
+
+      window.addEventListener('beforeunload', () => {
+        log('Страница закрывается, таймер остановлен');
+        stopRealtimeUpdates();
+        stopQuoteCarousel();
+      });
+
+      log('Страница загружена, форма ввода отображена');
+      showInputPanel();
+    })();
+  </script>
+</body>
+</html>
