@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Reality Check</title>
+  <title>Калькулятор прожитых лет</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
   </script>
   <style>
@@ -56,6 +56,12 @@
       --modal-bg: rgba(10,10,10,0.95);
       --modal-border: #2a2a2a;
       --modal-option-hover: #1e1e1e;
+      --back-btn-bg: rgba(20, 20, 20, 0.6);
+      --back-btn-border: #333;
+      --back-btn-text: #999;
+      --back-btn-hover-bg: #2a2a2a;
+      --back-btn-hover-text: #ddd;
+      --back-btn-hover-border: #555;
     }
 
     .light-theme {
@@ -107,6 +113,12 @@
       --modal-bg: rgba(250,250,250,0.95);
       --modal-border: #ddd;
       --modal-option-hover: #f0f0f0;
+      --back-btn-bg: rgba(240, 240, 240, 0.7);
+      --back-btn-border: #ddd;
+      --back-btn-text: #777;
+      --back-btn-hover-bg: #e0e0e0;
+      --back-btn-hover-text: #1a1a1a;
+      --back-btn-hover-border: #aaa;
     }
 
     * {
@@ -729,6 +741,38 @@
       transition: opacity 0.8s ease, color 0.5s ease;
     }
 
+    .bottom-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .back-btn-bottom {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--back-btn-bg);
+      border: 1px solid var(--back-btn-border);
+      color: var(--back-btn-text);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.7rem 2.5rem;
+      border-radius: 2.5rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      backdrop-filter: blur(8px);
+    }
+
+    .back-btn-bottom:hover {
+      background: var(--back-btn-hover-bg);
+      color: var(--back-btn-hover-text);
+      border-color: var(--back-btn-hover-border);
+    }
+
     .share-btn-bottom {
       display: inline-flex;
       align-items: center;
@@ -745,7 +789,6 @@
       transition: all 0.25s ease;
       font-family: inherit;
       backdrop-filter: blur(8px);
-      margin-top: 0.8rem;
     }
 
     .share-btn-bottom:hover {
@@ -880,7 +923,8 @@
       }
       .quote-carousel { height: 5.5rem; max-width: 100%; }
       .quote-text { font-size: 0.75rem; }
-      .share-btn-bottom { padding: 0.6rem 2rem; }
+      .bottom-actions { gap: 0.6rem; }
+      .back-btn-bottom, .share-btn-bottom { padding: 0.6rem 1.5rem; }
       .footer .links { gap: 1.2rem; font-size: 0.65rem; }
     }
   </style>
@@ -972,7 +1016,10 @@
             </div>
           </div>
 
-          <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
+          <div class="bottom-actions">
+            <button class="back-btn-bottom" id="backBtnBottom" data-ru="← Назад" data-en="← Back">← Назад</button>
+            <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1002,6 +1049,7 @@
     (function() {
       const TOTAL_SQUARES = 100;
       const UPPER_LIFESPAN = 80;
+      const STORAGE_KEY = 'reality-check-birthdate';
 
       const translations = {
         ru: {
@@ -1018,7 +1066,7 @@
             return 'в лучшем случае осталось ~' + r + ' лет';
           },
           inputHeading: 'Укажите свою дату рождения', day: 'День', month: 'Месяц', year: 'Год',
-          realityBtn: 'Reality check', shareBtn: '↗ Поделиться',
+          realityBtn: 'Reality check', shareBtn: '↗ Поделиться', backBtn: '← Назад',
           copyLink: '📋 Копировать ссылку', downloadPng: '💾 Скачать PNG',
           share: '📤 Поделиться', cancel: 'отмена', toastCopied: '✓ Ссылка скопирована',
           toastDownloaded: '✓ Скриншот скачан', toastNeedCheck: 'Сначала выполните Reality check',
@@ -1030,7 +1078,7 @@
           gridSummary: function(y) { return 'lived ' + y + ' of ' + TOTAL_SQUARES + ' years'; },
           optimistic: function(r) { return r === 1 ? 'at best ~' + r + ' year left' : 'at best ~' + r + ' years left'; },
           inputHeading: 'Enter your date of birth', day: 'Day', month: 'Month', year: 'Year',
-          realityBtn: 'Reality check', shareBtn: '↗ Share',
+          realityBtn: 'Reality check', shareBtn: '↗ Share', backBtn: '← Back',
           copyLink: '📋 Copy link', downloadPng: '💾 Download PNG',
           share: '📤 Share', cancel: 'cancel', toastCopied: '✓ Link copied',
           toastDownloaded: '✓ Screenshot downloaded', toastNeedCheck: 'Do Reality check first',
@@ -1080,6 +1128,7 @@
       const toggleIcon = document.getElementById('toggleIcon');
       const langToggle = document.getElementById('langToggle');
       const shareBtnBottom = document.getElementById('shareBtnBottom');
+      const backBtnBottom = document.getElementById('backBtnBottom');
       const shareModal = document.getElementById('shareModal');
       const toast = document.getElementById('toast');
       const dayTrigger = document.getElementById('dayTrigger');
@@ -1113,6 +1162,38 @@
       let toastTimer = null;
       function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); if(toastTimer) clearTimeout(toastTimer); toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
 
+      // Сохранение и загрузка даты рождения
+      function saveBirthDate(d) {
+        if (d) {
+          localStorage.setItem(STORAGE_KEY, d.toISOString());
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+
+      function loadBirthDate() {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          var parsed = new Date(saved);
+          if (!isNaN(parsed.getTime()) && parsed <= new Date()) {
+            return parsed;
+          }
+        }
+        return null;
+      }
+
+      function restoreSelectsFromDate(d) {
+        selectedDay = d.getDate();
+        selectedMonth = d.getMonth() + 1;
+        selectedYear = d.getFullYear();
+        dayTrigger.textContent = selectedDay;
+        monthTrigger.textContent = monthNames[selectedMonth - 1];
+        yearTrigger.textContent = selectedYear;
+        renderDayOptions();
+        renderMonthOptions();
+        renderYearOptions();
+      }
+
       sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); sidebarToggle.classList.toggle('active'); });
       document.addEventListener('click', function(e) { if(!sidebar.contains(e.target) && e.target !== sidebarToggle) { sidebar.classList.remove('open'); sidebarToggle.classList.remove('active'); } });
 
@@ -1142,6 +1223,18 @@
       });
 
       shareBtnBottom.addEventListener('click', function() { if(!birthDate) { showToast(t('toastNeedCheck')); return; } shareModal.classList.add('open'); });
+      
+      // Кнопка "Назад" — возврат к форме ввода
+      backBtnBottom.addEventListener('click', function() {
+        stopRealtimeUpdates();
+        stopQuoteCarousel();
+        statsPanel.classList.remove('active');
+        dateInputPanel.style.display = 'flex';
+        if (birthDate) {
+          restoreSelectsFromDate(birthDate);
+        }
+      });
+
       shareModal.addEventListener('click', async function(e) {
         var action = e.target.dataset.action; if(!action) return; shareModal.classList.remove('open'); if(action === 'close') return;
         if(action === 'copy') { try { await navigator.clipboard.writeText(window.location.href); showToast(t('toastCopied')); } catch(err) { showToast(window.location.href); } }
@@ -1241,15 +1334,50 @@
       }
       function startRealtimeUpdates() { if(animationFrameId) cancelAnimationFrame(animationFrameId); function tick() { updateLiveCounter(); animationFrameId = requestAnimationFrame(tick); } tick(); }
       function stopRealtimeUpdates() { if(animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } }
-      function showStatsPanel() { dateInputPanel.style.display = 'none'; statsPanel.classList.add('active'); currentGridYear = -1; if(birthDate) { updateLiveCounter(); startRealtimeUpdates(); } startQuoteCarousel(); }
-      function showInputPanel() { stopRealtimeUpdates(); stopQuoteCarousel(); statsPanel.classList.remove('active'); dateInputPanel.style.display = 'flex'; }
+      
+      function showStatsPanel() {
+        dateInputPanel.style.display = 'none';
+        statsPanel.classList.add('active');
+        currentGridYear = -1;
+        if(birthDate) {
+          updateLiveCounter();
+          startRealtimeUpdates();
+        }
+        startQuoteCarousel();
+      }
+      
+      function showInputPanel() {
+        stopRealtimeUpdates();
+        stopQuoteCarousel();
+        statsPanel.classList.remove('active');
+        dateInputPanel.style.display = 'flex';
+      }
 
       realityBtn.addEventListener('click', function() {
-        var nd = getBirthDateFromSelects(); if(nd > new Date()) { alert(t('futureError')); return; }
-        stopRealtimeUpdates(); birthDate = nd; showStatsPanel();
+        var nd = getBirthDateFromSelects();
+        if(nd > new Date()) { alert(t('futureError')); return; }
+        stopRealtimeUpdates();
+        birthDate = nd;
+        saveBirthDate(birthDate);
+        showStatsPanel();
       });
+      
       window.addEventListener('beforeunload', function() { stopRealtimeUpdates(); stopQuoteCarousel(); });
-      renderDayOptions(); renderMonthOptions(); renderYearOptions(); showInputPanel();
+      
+      // Инициализация
+      renderDayOptions();
+      renderMonthOptions();
+      renderYearOptions();
+      
+      // Загружаем сохранённую дату
+      var savedDate = loadBirthDate();
+      if (savedDate) {
+        birthDate = savedDate;
+        restoreSelectsFromDate(birthDate);
+        showStatsPanel();
+      } else {
+        showInputPanel();
+      }
     })();
   </script>
 </body>
