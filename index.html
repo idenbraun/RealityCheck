@@ -953,6 +953,9 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* ============================================================
+       ФУТЕР — увеличенный отступ снизу
+       ============================================================ */
     .footer {
       flex-shrink: 0;
       width: 100%;
@@ -963,7 +966,7 @@
       color: var(--footer-text);
       font-size: 0.7rem;
       letter-spacing: 0.15em;
-      padding: 1.8rem 1rem 1.2rem;
+      padding: 1.8rem 1rem 3rem;  /* увеличен нижний отступ с 1.2rem до 3rem */
       background: transparent;
       border-top: 1px solid var(--footer-border);
       transition: color 0.5s ease, border-color 0.5s ease;
@@ -1159,12 +1162,14 @@
       </div>
     </div>
 
-    <!-- Футер -->
+    <!-- Футер — теперь с увеличенным отступом снизу -->
     <div class="footer">
       <div class="links">
         <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
         <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
         <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+      </div>
+      <div class="year">© 2026</div>
     </div>
 
   </div>
