@@ -132,6 +132,8 @@
 
     html, body {
       height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
       background: var(--bg);
       transition: background 0.5s ease;
     }
@@ -141,17 +143,99 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       min-height: 100vh;
+      min-height: 100dvh;
       margin: 0;
-      padding: 1.5rem;
-      padding-bottom: 0;
+      padding: 1.5rem 1.5rem 0 1.5rem;
       color: var(--text);
       letter-spacing: -0.01em;
       background: var(--bg-gradient);
+      background-attachment: fixed;
       transition: background 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
     }
 
+    /* ----- Основная обёртка (как в Breath) ----- */
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 auto;
+      width: 100%;
+      max-width: 820px;
+      min-height: 100%;
+      min-height: 100dvh;
+    }
+
+    /* ----- Контент (расширяется) ----- */
+    .page-content {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2.5rem;
+    }
+
+    /* ----- Футер (прижат к низу) ----- */
+    .footer {
+      flex-shrink: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--footer-text);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      padding: 1.8rem 1rem 1.2rem;
+      background: transparent;
+      border-top: 1px solid var(--footer-border);
+      transition: color 0.5s ease, border-color 0.5s ease;
+      margin-top: auto;
+    }
+
+    .footer .links {
+      display: flex;
+      gap: 2.2rem;
+      flex-wrap: nowrap;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .footer a {
+      color: var(--footer-link);
+      text-decoration: none;
+      transition: color 0.25s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    .footer a:hover {
+      color: var(--footer-link-hover);
+      border-bottom-color: #444;
+    }
+
+    .footer .year {
+      color: var(--footer-text);
+      margin-top: 0.1rem;
+      transition: color 0.5s ease;
+    }
+
+    /* ----- Остальные стили (без изменений) ----- */
     .sidebar-toggle {
       position: fixed;
       left: 0;
@@ -255,7 +339,7 @@
       left: 3px;
       top: 3px;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       z-index: 2;
       display: flex;
       align-items: center;
@@ -266,7 +350,7 @@
 
     .light-theme .toggle-thumb {
       transform: translateX(24px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     .lang-toggle-track {
@@ -291,7 +375,7 @@
       left: 3px;
       top: 3px;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       z-index: 2;
       display: flex;
       align-items: center;
@@ -306,7 +390,8 @@
       transform: translateX(24px);
     }
 
-    .lang-label-left, .lang-label-right {
+    .lang-label-left,
+    .lang-label-right {
       font-size: 9px;
       font-weight: 600;
       letter-spacing: 0.05em;
@@ -328,31 +413,17 @@
       color: #fff;
     }
 
-    .lang-en .lang-label-right { opacity: 1; }
-    .lang-en .lang-label-left { opacity: 0.3; }
-    body:not(.lang-en) .lang-label-left { opacity: 1; }
-    body:not(.lang-en) .lang-label-right { opacity: 0.3; }
-
-    .page-content {
-      flex: 1 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding-bottom: 2rem;
+    .lang-en .lang-label-right {
+      opacity: 1;
     }
-
-    .container {
-      width: 100%;
-      max-width: 820px;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 2.5rem;
+    .lang-en .lang-label-left {
+      opacity: 0.3;
+    }
+    body:not(.lang-en) .lang-label-left {
+      opacity: 1;
+    }
+    body:not(.lang-en) .lang-label-right {
+      opacity: 0.3;
     }
 
     .date-input-panel {
@@ -459,7 +530,7 @@
       max-height: 200px;
       overflow-y: auto;
       z-index: 10;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       transition: background 0.5s ease, border-color 0.5s ease;
     }
 
@@ -474,7 +545,7 @@
       cursor: pointer;
       transition: background 0.15s, color 0.15s;
       text-align: center;
-      border-bottom: 1px solid rgba(128,128,128,0.1);
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
     }
 
     .select-option:last-child {
@@ -513,7 +584,7 @@
       background: #ffffff;
       color: #000;
       border-color: #fff;
-      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
       letter-spacing: 0.45em;
     }
 
@@ -558,7 +629,7 @@
       line-height: 1;
       font-feature-settings: "tnum";
       font-variant-numeric: tabular-nums;
-      text-shadow: 0 0 30px rgba(128,128,128,0.15);
+      text-shadow: 0 0 30px rgba(128, 128, 128, 0.15);
       font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
       word-break: break-word;
       display: flex;
@@ -567,9 +638,23 @@
       transition: color 0.5s ease;
     }
 
-    .year-integer { color: var(--year-int); transition: color 0.5s ease; }
-    .year-dot { color: var(--dot-color); font-size: 0.7em; margin: 0 0.02em; transition: color 0.5s ease; }
-    .year-decimal-flow { color: var(--dot-color); font-size: 0.7em; letter-spacing: 0.04em; display: inline-block; transition: color 0.5s ease; }
+    .year-integer {
+      color: var(--year-int);
+      transition: color 0.5s ease;
+    }
+    .year-dot {
+      color: var(--dot-color);
+      font-size: 0.7em;
+      margin: 0 0.02em;
+      transition: color 0.5s ease;
+    }
+    .year-decimal-flow {
+      color: var(--dot-color);
+      font-size: 0.7em;
+      letter-spacing: 0.04em;
+      display: inline-block;
+      transition: color 0.5s ease;
+    }
 
     .year-subtitle {
       font-size: 0.7rem;
@@ -674,7 +759,7 @@
     .square.filled {
       background: var(--square-filled);
       border-color: var(--square-filled-border);
-      box-shadow: 0 0 8px rgba(128,128,128,0.15);
+      box-shadow: 0 0 8px rgba(128, 128, 128, 0.15);
     }
 
     .square:hover {
@@ -685,8 +770,13 @@
       position: relative;
     }
 
-    .square.filled:hover { background: var(--square-filled); border-color: #aaa; }
-    .light-theme .square.filled:hover { background: #333; }
+    .square.filled:hover {
+      background: var(--square-filled);
+      border-color: #aaa;
+    }
+    .light-theme .square.filled:hover {
+      background: #333;
+    }
 
     .optimistic-remaining {
       font-size: 0.7rem;
@@ -804,13 +894,15 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       z-index: 50;
       align-items: center;
       justify-content: center;
     }
 
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open {
+      display: flex;
+    }
 
     .modal {
       background: var(--modal-bg);
@@ -825,7 +917,6 @@
       align-items: center;
     }
 
-    /* QR-код в модалке */
     .modal-qr {
       background: var(--qr-bg);
       padding: 10px;
@@ -855,7 +946,9 @@
       width: 100%;
     }
 
-    .modal-option:hover { background: var(--modal-option-hover); }
+    .modal-option:hover {
+      background: var(--modal-option-hover);
+    }
 
     .modal-close {
       background: transparent;
@@ -887,52 +980,34 @@
       backdrop-filter: blur(12px);
     }
 
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    .footer {
-      flex-shrink: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.7rem;
-      color: var(--footer-text);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      padding: 1.8rem 1rem 1.2rem;
-      background: transparent;
-      border-top: 1px solid var(--footer-border);
-      margin-top: auto;
-      transition: color 0.5s ease, border-color 0.5s ease;
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
     }
-
-    .footer .links {
-      display: flex;
-      gap: 2.2rem;
-      flex-wrap: nowrap;
-      justify-content: center;
-      white-space: nowrap;
-    }
-
-    .footer a {
-      color: var(--footer-link);
-      text-decoration: none;
-      transition: color 0.25s;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
-    }
-
-    .footer a:hover { color: var(--footer-link-hover); border-bottom-color: #444; }
-    .footer .year { color: var(--footer-text); margin-top: 0.1rem; transition: color 0.5s ease; }
 
     @media (max-width: 500px) {
-      body { padding: 0.8rem; padding-bottom: 0; }
-      .container { max-width: 100%; }
-      .selectors { gap: 0.2rem; }
-      .select-trigger { padding: 0.7rem 1.5rem 0.7rem 0.6rem; font-size: 1rem; }
-      .year-decimal-timer { padding: 4rem 1rem 0.5rem; }
-      .big-year-number { font-size: 3.5rem; }
-      .secondary-stats { gap: 2rem; }
+      body {
+        padding: 0.8rem 0.8rem 0 0.8rem;
+        min-height: 100dvh;
+      }
+      .container {
+        max-width: 100%;
+      }
+      .selectors {
+        gap: 0.2rem;
+      }
+      .select-trigger {
+        padding: 0.7rem 1.5rem 0.7rem 0.6rem;
+        font-size: 1rem;
+      }
+      .year-decimal-timer {
+        padding: 4rem 1rem 0.5rem;
+      }
+      .big-year-number {
+        font-size: 3.5rem;
+      }
+      .secondary-stats {
+        gap: 2rem;
+      }
       .life-grid {
         grid-template-columns: repeat(25, 1fr);
         gap: 2px;
@@ -942,16 +1017,33 @@
         min-width: auto;
         width: 100%;
       }
-      .quote-carousel { height: 5.5rem; max-width: 100%; }
-      .quote-text { font-size: 0.75rem; }
-      .bottom-actions { gap: 0.6rem; }
-      .back-btn-bottom, .share-btn-bottom { padding: 0.6rem 1.5rem; }
-      .modal { padding: 1.4rem; min-width: 240px; }
-      .footer .links { gap: 1.2rem; font-size: 0.65rem; }
+      .quote-carousel {
+        height: 5.5rem;
+        max-width: 100%;
+      }
+      .quote-text {
+        font-size: 0.75rem;
+      }
+      .bottom-actions {
+        gap: 0.6rem;
+      }
+      .back-btn-bottom,
+      .share-btn-bottom {
+        padding: 0.6rem 1.5rem;
+      }
+      .modal {
+        padding: 1.4rem;
+        min-width: 240px;
+      }
+      .footer .links {
+        gap: 1.2rem;
+        font-size: 0.65rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Сайдбар и всё остальное как было -->
   <button class="sidebar-toggle" id="sidebarToggle" title="Меню"></button>
 
   <div class="sidebar" id="sidebar">
@@ -978,84 +1070,96 @@
     </div>
   </div>
 
-  <div class="page-content">
-    <div class="container">
-      <div id="dateInputPanel" class="date-input-panel">
-        <div class="input-heading" data-ru="Укажите свою дату рождения" data-en="Enter your date of birth">Укажите свою дату рождения</div>
-        <div class="selectors">
-          <div class="select-wrapper">
-            <label data-ru="День" data-en="Day">День</label>
-            <div class="custom-select-container" id="dayContainer">
-              <div class="select-trigger" id="dayTrigger">1</div>
-              <div class="select-overlay" id="dayOverlay"></div>
+  <!-- Основная обёртка -->
+  <div class="app-wrapper">
+
+    <div class="page-content">
+      <div class="container">
+
+        <!-- Панель ввода даты -->
+        <div id="dateInputPanel" class="date-input-panel">
+          <div class="input-heading" data-ru="Укажите свою дату рождения" data-en="Enter your date of birth">Укажите свою дату рождения</div>
+          <div class="selectors">
+            <div class="select-wrapper">
+              <label data-ru="День" data-en="Day">День</label>
+              <div class="custom-select-container" id="dayContainer">
+                <div class="select-trigger" id="dayTrigger">1</div>
+                <div class="select-overlay" id="dayOverlay"></div>
+              </div>
+            </div>
+            <div class="select-wrapper">
+              <label data-ru="Месяц" data-en="Month">Месяц</label>
+              <div class="custom-select-container" id="monthContainer">
+                <div class="select-trigger" id="monthTrigger">Январь</div>
+                <div class="select-overlay" id="monthOverlay"></div>
+              </div>
+            </div>
+            <div class="select-wrapper">
+              <label data-ru="Год" data-en="Year">Год</label>
+              <div class="custom-select-container" id="yearContainer">
+                <div class="select-trigger" id="yearTrigger">1995</div>
+                <div class="select-overlay" id="yearOverlay"></div>
+              </div>
             </div>
           </div>
-          <div class="select-wrapper">
-            <label data-ru="Месяц" data-en="Month">Месяц</label>
-            <div class="custom-select-container" id="monthContainer">
-              <div class="select-trigger" id="monthTrigger">Январь</div>
-              <div class="select-overlay" id="monthOverlay"></div>
+          <button id="realityButton" class="reality-btn" data-ru="Reality check" data-en="Reality check">Reality check</button>
+        </div>
+
+        <!-- Панель статистики -->
+        <div id="statsPanel" class="stats-panel">
+          <div id="captureArea">
+            <div class="year-decimal-timer">
+              <div class="big-year-number">
+                <span class="year-integer" id="yearInteger">0</span>
+                <span class="year-dot">.</span>
+                <span class="year-decimal-flow" id="yearDecimalFlow">000000000</span>
+              </div>
+              <div class="year-subtitle" id="yearSubtitle">прожитых лет</div>
             </div>
-          </div>
-          <div class="select-wrapper">
-            <label data-ru="Год" data-en="Year">Год</label>
-            <div class="custom-select-container" id="yearContainer">
-              <div class="select-trigger" id="yearTrigger">1995</div>
-              <div class="select-overlay" id="yearOverlay"></div>
+
+            <div class="secondary-stats">
+              <div class="stat-item"><div class="stat-number" id="daysLived">0</div><div class="stat-label" data-ru="дней" data-en="days">дней</div></div>
+              <div class="stat-item"><div class="stat-number" id="weeksLived">0</div><div class="stat-label" data-ru="недель" data-en="weeks">недель</div></div>
+              <div class="stat-item"><div class="stat-number" id="monthsLived">0</div><div class="stat-label" data-ru="месяцев" data-en="months">месяцев</div></div>
+            </div>
+
+            <div class="grid-section">
+              <div class="grid-title"><span id="gridSummary">прожито 0 из 100 лет</span></div>
+              <div id="lifeGrid" class="life-grid"></div>
+              <div class="optimistic-remaining" id="optimisticRemaining">в лучшем случае осталось ~80 лет</div>
+            </div>
+
+            <div class="quote-carousel">
+              <div class="quote-inner">
+                <div class="quote-text" id="quoteText"></div>
+                <div class="quote-author" id="quoteAuthor"></div>
+              </div>
+            </div>
+
+            <div class="bottom-actions">
+              <button class="back-btn-bottom" id="backBtnBottom" data-ru="← Назад" data-en="← Back">← Назад</button>
+              <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
             </div>
           </div>
         </div>
-        <button id="realityButton" class="reality-btn" data-ru="Reality check" data-en="Reality check">Reality check</button>
-      </div>
 
-      <div id="statsPanel" class="stats-panel">
-        <div id="captureArea">
-          <div class="year-decimal-timer">
-            <div class="big-year-number">
-              <span class="year-integer" id="yearInteger">0</span>
-              <span class="year-dot">.</span>
-              <span class="year-decimal-flow" id="yearDecimalFlow">000000000</span>
-            </div>
-            <div class="year-subtitle" id="yearSubtitle">прожитых лет</div>
-          </div>
-
-          <div class="secondary-stats">
-            <div class="stat-item"><div class="stat-number" id="daysLived">0</div><div class="stat-label" data-ru="дней" data-en="days">дней</div></div>
-            <div class="stat-item"><div class="stat-number" id="weeksLived">0</div><div class="stat-label" data-ru="недель" data-en="weeks">недель</div></div>
-            <div class="stat-item"><div class="stat-number" id="monthsLived">0</div><div class="stat-label" data-ru="месяцев" data-en="months">месяцев</div></div>
-          </div>
-
-          <div class="grid-section">
-            <div class="grid-title"><span id="gridSummary">прожито 0 из 100 лет</span></div>
-            <div id="lifeGrid" class="life-grid"></div>
-            <div class="optimistic-remaining" id="optimisticRemaining">в лучшем случае осталось ~80 лет</div>
-          </div>
-
-          <div class="quote-carousel">
-            <div class="quote-inner">
-              <div class="quote-text" id="quoteText"></div>
-              <div class="quote-author" id="quoteAuthor"></div>
-            </div>
-          </div>
-
-          <div class="bottom-actions">
-            <button class="back-btn-bottom" id="backBtnBottom" data-ru="← Назад" data-en="← Back">← Назад</button>
-            <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
 
-  <div class="footer">
-    <div class="links">
-      <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
-      <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+    <!-- Футер (прижат к низу) -->
+    <div class="footer">
+      <div class="links">
+        <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
+        <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+      </div>
+      <div class="year">© 2026</div>
     </div>
-    <div class="year">© 2026</div>
-  </div>
 
+  </div>
+  <!-- Конец обёртки -->
+
+  <!-- Модалки и тосты -->
   <div class="modal-overlay" id="shareModal">
     <div class="modal">
       <div class="modal-qr" id="modalQrContainer"></div>
@@ -1082,48 +1186,74 @@
             if (y % 10 >= 2 && y % 10 <= 4 && (y % 100 < 10 || y % 100 >= 20)) return 'прожитых года';
             return 'прожитых лет';
           },
-          days: 'дней', weeks: 'недель', months: 'месяцев',
+          days: 'дней',
+          weeks: 'недель',
+          months: 'месяцев',
           gridSummary: function(y) { return 'прожито ' + y + ' из ' + TOTAL_SQUARES + ' лет'; },
           optimistic: function(r) {
             if (r % 10 === 1 && r % 100 !== 11) return 'в лучшем случае остался ~' + r + ' год';
-            if (r % 10 >= 2 && r % 10 <= 4 && (r % 100 < 10 || r % 100 >= 20)) return 'в лучшем случае осталось ~' + r + ' года';
+            if (r % 10 >= 2 && r % 10 <= 4 && (r % 100 < 10 || r % 100 >= 20)) return 'в лучшем случае осталось ~' + r +
+              ' года';
             return 'в лучшем случае осталось ~' + r + ' лет';
           },
-          inputHeading: 'Укажите свою дату рождения', day: 'День', month: 'Месяц', year: 'Год',
-          realityBtn: 'Reality check', shareBtn: '↗ Поделиться', backBtn: '← Назад',
-          copyLink: '📋 Копировать ссылку', downloadPng: '💾 Скачать PNG',
-          share: '📤 Поделиться', cancel: 'отмена', toastCopied: '✓ Ссылка скопирована',
-          toastDownloaded: '✓ Скриншот скачан', toastNeedCheck: 'Сначала выполните Reality check',
+          inputHeading: 'Укажите свою дату рождения',
+          day: 'День',
+          month: 'Месяц',
+          year: 'Год',
+          realityBtn: 'Reality check',
+          shareBtn: '↗ Поделиться',
+          backBtn: '← Назад',
+          copyLink: '📋 Копировать ссылку',
+          downloadPng: '💾 Скачать PNG',
+          share: '📤 Поделиться',
+          cancel: 'отмена',
+          toastCopied: '✓ Ссылка скопирована',
+          toastDownloaded: '✓ Скриншот скачан',
+          toastNeedCheck: 'Сначала выполните Reality check',
           futureError: 'Дата рождения не может быть в будущем.'
         },
         en: {
           yearSubtitle: function(y) { return y === 1 ? 'year lived' : 'years lived'; },
-          days: 'days', weeks: 'weeks', months: 'months',
+          days: 'days',
+          weeks: 'weeks',
+          months: 'months',
           gridSummary: function(y) { return 'lived ' + y + ' of ' + TOTAL_SQUARES + ' years'; },
           optimistic: function(r) { return r === 1 ? 'at best ~' + r + ' year left' : 'at best ~' + r + ' years left'; },
-          inputHeading: 'Enter your date of birth', day: 'Day', month: 'Month', year: 'Year',
-          realityBtn: 'Reality check', shareBtn: '↗ Share', backBtn: '← Back',
-          copyLink: '📋 Copy link', downloadPng: '💾 Download PNG',
-          share: '📤 Share', cancel: 'cancel', toastCopied: '✓ Link copied',
-          toastDownloaded: '✓ Screenshot downloaded', toastNeedCheck: 'Do Reality check first',
+          inputHeading: 'Enter your date of birth',
+          day: 'Day',
+          month: 'Month',
+          year: 'Year',
+          realityBtn: 'Reality check',
+          shareBtn: '↗ Share',
+          backBtn: '← Back',
+          copyLink: '📋 Copy link',
+          downloadPng: '💾 Download PNG',
+          share: '📤 Share',
+          cancel: 'cancel',
+          toastCopied: '✓ Link copied',
+          toastDownloaded: '✓ Screenshot downloaded',
+          toastNeedCheck: 'Do Reality check first',
           futureError: 'Date of birth cannot be in the future.'
         }
       };
 
       const quotes = {
         ru: [
-          { text: '«Ты живёшь так, будто будешь жить вечно.<br>Ты не думаешь о своей хрупкости.<br>Ты не замечаешь, сколько времени уже прошло.»', author: '— Сенека' },
+          { text: '«Ты живёшь так, будто будешь жить вечно.<br>Ты не думаешь о своей хрупкости.<br>Ты не замечаешь, сколько времени уже прошло.»',
+            author: '— Сенека' },
           { text: '«Человек — это не что иное, как сумма его поступков.»', author: '— Жан-Поль Сартр' },
           { text: '«Ты уже умираешь. Прямо сейчас.»', author: '— Тайлер Дёрден, «Бойцовский клуб»' },
           { text: '«Каждый день — это маленькая жизнь.»', author: '— Марк Аврелий' },
           { text: '«А ведь где-то уже растёт дерево,<br>из которого сколотят твой гроб.»', author: '— Неизвестный автор' }
         ],
         en: [
-          { text: '«You live as if you will live forever.<br>You do not think about your fragility.<br>You do not notice how much time has passed.»', author: '— Seneca' },
+          { text: '«You live as if you will live forever.<br>You do not think about your fragility.<br>You do not notice how much time has passed.»',
+            author: '— Seneca' },
           { text: '«Man is nothing else but the sum of his actions.»', author: '— Jean-Paul Sartre' },
           { text: '«You are already dying. Right now.»', author: '— Tyler Durden, «Fight Club»' },
           { text: '«Each day is a little life.»', author: '— Marcus Aurelius' },
-          { text: '«Somewhere a tree is already growing<br>from which your coffin will be made.»', author: '— Unknown author' }
+          { text: '«Somewhere a tree is already growing<br>from which your coffin will be made.»',
+            author: '— Unknown author' }
         ]
       };
 
@@ -1133,19 +1263,28 @@
       let qrCodeInstance = null;
 
       function t(key) { var val = translations[currentLang][key]; return typeof val === 'function' ? val : val; }
+
       function getCurrentQuotes() { return quotes[currentLang]; }
 
       function updateAllTexts() {
-        document.querySelectorAll('[data-ru][data-en]').forEach(function(el) { el.textContent = el.getAttribute('data-' + currentLang); });
-        if (birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years); updateGridTexts(details.years); updateStatLabels(); }
+        document.querySelectorAll('[data-ru][data-en]').forEach(function(el) { el.textContent = el.getAttribute('data-' +
+            currentLang); });
+        if (birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years);
+          updateGridTexts(details.years); updateStatLabels(); }
       }
-      function updateYearSubtitle(years) { document.getElementById('yearSubtitle').textContent = translations[currentLang].yearSubtitle(years); }
+
+      function updateYearSubtitle(years) { document.getElementById('yearSubtitle').textContent = translations[currentLang]
+          .yearSubtitle(years); }
+
       function updateGridTexts(years) {
         var c = Math.min(years, TOTAL_SQUARES);
         document.getElementById('gridSummary').textContent = translations[currentLang].gridSummary(c);
-        document.getElementById('optimisticRemaining').textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN - c));
+        document.getElementById('optimisticRemaining').textContent = translations[currentLang].optimistic(Math.max(0,
+          UPPER_LIFESPAN - c));
       }
-      function updateStatLabels() { document.querySelectorAll('.stat-label[data-ru][data-en]').forEach(function(el) { el.textContent = el.getAttribute('data-' + currentLang); }); }
+
+      function updateStatLabels() { document.querySelectorAll('.stat-label[data-ru][data-en]').forEach(function(el) { el
+            .textContent = el.getAttribute('data-' + currentLang); }); }
 
       const sidebar = document.getElementById('sidebar');
       const sidebarToggle = document.getElementById('sidebarToggle');
@@ -1181,12 +1320,18 @@
       let animationFrameId = null;
       let currentGridYear = -1;
       let frameCount = 0;
-      let selectedDay = 1, selectedMonth = 1, selectedYear = 1995;
+      let selectedDay = 1,
+        selectedMonth = 1,
+        selectedYear = 1995;
       let currentOpenOverlay = null;
-      const monthNames = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+      const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь',
+        'Ноябрь', 'Декабрь'
+      ];
 
       let toastTimer = null;
-      function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); if(toastTimer) clearTimeout(toastTimer); toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
+
+      function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); if (toastTimer) clearTimeout(
+          toastTimer); toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
 
       function saveBirthDate(d) {
         if (d) {
@@ -1231,12 +1376,16 @@
         });
       }
 
-      sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); sidebarToggle.classList.toggle('active'); });
-      document.addEventListener('click', function(e) { if(!sidebar.contains(e.target) && e.target !== sidebarToggle) { sidebar.classList.remove('open'); sidebarToggle.classList.remove('active'); } });
+      sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); sidebarToggle.classList.toggle(
+          'active'); });
+      document.addEventListener('click', function(e) { if (!sidebar.contains(e.target) && e.target !== sidebarToggle) { sidebar
+            .classList.remove('open');
+          sidebarToggle.classList.remove('active'); } });
 
       function applyTheme(theme) {
-        if(theme === 'light') { document.body.classList.add('light-theme'); toggleIcon.textContent = '☀️'; }
-        else { document.body.classList.remove('light-theme'); toggleIcon.textContent = '🌙'; }
+        if (theme === 'light') { document.body.classList.add('light-theme');
+          toggleIcon.textContent = '☀️'; } else { document.body.classList.remove('light-theme');
+          toggleIcon.textContent = '🌙'; }
       }
       var savedTheme = localStorage.getItem('reality-check-theme');
       applyTheme(savedTheme === 'light' ? 'light' : 'dark');
@@ -1248,23 +1397,25 @@
 
       var savedLang = localStorage.getItem('reality-check-lang') || 'ru';
       currentLang = savedLang;
-      if(currentLang === 'en') document.body.classList.add('lang-en');
+      if (currentLang === 'en') document.body.classList.add('lang-en');
       updateAllTexts();
       langToggle.addEventListener('click', function() {
         currentLang = currentLang === 'ru' ? 'en' : 'ru';
-        if(currentLang === 'en') document.body.classList.add('lang-en'); else document.body.classList.remove('lang-en');
+        if (currentLang === 'en') document.body.classList.add('lang-en');
+        else document.body.classList.remove('lang-en');
         localStorage.setItem('reality-check-lang', currentLang);
         updateAllTexts();
-        if(birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years); updateGridTexts(details.years); updateStatLabels(); }
+        if (birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years);
+          updateGridTexts(details.years); updateStatLabels(); }
         showQuoteRaw(getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length]);
       });
 
       shareBtnBottom.addEventListener('click', function() {
-        if(!birthDate) { showToast(t('toastNeedCheck')); return; }
+        if (!birthDate) { showToast(t('toastNeedCheck')); return; }
         generateModalQR();
         shareModal.classList.add('open');
       });
-      
+
       backBtnBottom.addEventListener('click', function() {
         stopRealtimeUpdates();
         stopQuoteCarousel();
@@ -1276,16 +1427,24 @@
       });
 
       shareModal.addEventListener('click', async function(e) {
-        var action = e.target.dataset.action; if(!action) return; shareModal.classList.remove('open'); if(action === 'close') return;
-        if(action === 'copy') { try { await navigator.clipboard.writeText(window.location.href); showToast(t('toastCopied')); } catch(err) { showToast(window.location.href); } }
-        else if(action === 'download') { await generateScreenshot(); }
-        else if(action === 'share') {
+        var action = e.target.dataset.action;
+        if (!action) return;
+        shareModal.classList.remove('open');
+        if (action === 'close') return;
+        if (action === 'copy') { try { await navigator.clipboard.writeText(window.location.href);
+            showToast(t('toastCopied')); } catch (err) { showToast(window.location.href); } } else if (action ===
+          'download') { await generateScreenshot(); } else if (action === 'share') {
           try {
-            var blob = await generateScreenshotBlob(); if(!blob) return;
+            var blob = await generateScreenshotBlob();
+            if (!blob) return;
             var file = new File([blob], 'reality-check.png', { type: 'image/png' });
-            if(navigator.share) await navigator.share({ title: 'Reality Check', files: [file] });
-            else { var url = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = url; a.download = 'reality-check.png'; a.click(); URL.revokeObjectURL(url); }
-          } catch(err) {}
+            if (navigator.share) await navigator.share({ title: 'Reality Check', files: [file] });
+            else { var url = URL.createObjectURL(blob); var a = document.createElement('a');
+              a.href = url;
+              a.download = 'reality-check.png';
+              a.click();
+              URL.revokeObjectURL(url); }
+          } catch (err) {}
         }
       });
 
@@ -1294,98 +1453,202 @@
         var decimalYears = computeExactDecimalYears(birthDate);
         var quote = getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length];
         var isLight = document.body.classList.contains('light-theme');
-        var bg = isLight ? '#f5f5f5' : '#0a0a0a', text = isLight ? '#1a1a1a' : '#f5f5f5', muted = isLight ? '#777' : '#888';
-        var sEmpty = isLight ? '#e0e0e0' : '#181818', sFilled = isLight ? '#1a1a1a' : '#d4d4d4';
+        var bg = isLight ? '#f5f5f5' : '#0a0a0a',
+          text = isLight ? '#1a1a1a' : '#f5f5f5',
+          muted = isLight ? '#777' : '#888';
+        var sEmpty = isLight ? '#e0e0e0' : '#181818',
+          sFilled = isLight ? '#1a1a1a' : '#d4d4d4';
         var wrapper = document.createElement('div');
-        wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;background:'+bg+';padding:200px 120px 180px;font-family:Inter,sans-serif;display:flex;flex-direction:column;align-items:center;color:'+text+';';
-        wrapper.innerHTML = '<div style="font-size:2.2rem;font-weight:350;font-family:monospace;text-align:center;">'+Math.floor(decimalYears)+'<span style="font-size:0.7em;color:'+muted+';">.'+decimalYears.toFixed(DECIMAL_PLACES).split('.')[1]+'</span></div>'+
-          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.4em;color:'+muted+';margin-bottom:2rem;">'+translations[currentLang].yearSubtitle(details.years)+'</div>'+
-          '<div style="display:flex;gap:2rem;margin-bottom:2rem;color:'+muted+';font-size:0.7rem;"><div>'+details.days.toLocaleString()+' <span style="font-size:0.5rem;opacity:0.6;">'+t('days')+'</span></div><div>'+details.weeks.toLocaleString()+' <span style="font-size:0.5rem;opacity:0.6;">'+t('weeks')+'</span></div><div>'+details.months.toLocaleString()+' <span style="font-size:0.5rem;opacity:0.6;">'+t('months')+'</span></div></div>'+
-          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.3em;color:'+muted+';margin-bottom:0.3rem;">'+translations[currentLang].gridSummary(details.years)+'</div>'+
-          '<div style="display:grid;grid-template-columns:repeat(25,14px);gap:5px;margin-bottom:1rem;">'+Array.from({length:100},function(_,i){return '<div style="width:14px;height:14px;background:'+(i<details.years?sFilled:sEmpty)+';border:1px solid '+(i<details.years?'#6a6a6a':'#2a2a2a')+';"></div>';}).join('')+'</div>'+
-          '<div style="font-size:0.5rem;color:'+muted+';opacity:0.6;margin-bottom:1.5rem;">'+translations[currentLang].optimistic(Math.max(0,80-details.years))+'</div>'+
-          '<div style="font-size:0.6rem;font-style:italic;color:'+muted+';text-align:center;max-width:380px;line-height:1.4;margin-bottom:0.2rem;">'+quote.text.replace(/<br>/g,' ')+'</div>'+
-          '<div style="font-size:0.5rem;color:'+muted+';opacity:0.7;">'+quote.author+'</div>'+
-          '<div style="font-size:0.4rem;color:'+muted+';opacity:0.4;margin-top:2rem;">reality-check</div>';
+        wrapper.style.cssText =
+          'position:fixed;left:-9999px;top:0;width:1080px;background:' + bg + ';padding:200px 120px 180px;font-family:Inter,sans-serif;display:flex;flex-direction:column;align-items:center;color:' +
+          text + ';';
+        wrapper.innerHTML = '<div style="font-size:2.2rem;font-weight:350;font-family:monospace;text-align:center;">' +
+          Math.floor(decimalYears) + '<span style="font-size:0.7em;color:' + muted + ';">.' + decimalYears.toFixed(
+            DECIMAL_PLACES).split('.')[1] + '</span></div>' +
+          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.4em;color:' + muted +
+          ';margin-bottom:2rem;">' + translations[currentLang].yearSubtitle(details.years) + '</div>' +
+          '<div style="display:flex;gap:2rem;margin-bottom:2rem;color:' + muted + ';font-size:0.7rem;"><div>' + details
+          .days.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t('days') + '</span></div><div>' +
+          details.weeks.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t('weeks') +
+          '</span></div><div>' + details.months.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t(
+            'months') + '</span></div></div>' +
+          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.3em;color:' + muted +
+          ';margin-bottom:0.3rem;">' + translations[currentLang].gridSummary(details.years) + '</div>' +
+          '<div style="display:grid;grid-template-columns:repeat(25,14px);gap:5px;margin-bottom:1rem;">' + Array.from({
+            length: 100
+          }, function(_, i) { return '<div style="width:14px;height:14px;background:' + (i < details.years ?
+              sFilled : sEmpty) + ';border:1px solid ' + (i < details.years ? '#6a6a6a' : '#2a2a2a') +
+            ';"></div>'; }).join('') + '</div>' +
+          '<div style="font-size:0.5rem;color:' + muted + ';opacity:0.6;margin-bottom:1.5rem;">' + translations[
+            currentLang].optimistic(Math.max(0, 80 - details.years)) + '</div>' +
+          '<div style="font-size:0.6rem;font-style:italic;color:' + muted +
+          ';text-align:center;max-width:380px;line-height:1.4;margin-bottom:0.2rem;">' + quote.text.replace(/<br>/g,
+            ' ') + '</div>' +
+          '<div style="font-size:0.5rem;color:' + muted + ';opacity:0.7;">' + quote.author + '</div>' +
+          '<div style="font-size:0.4rem;color:' + muted + ';opacity:0.4;margin-top:2rem;">reality-check</div>';
         document.body.appendChild(wrapper);
-        try { var canvas = await html2canvas(wrapper, { backgroundColor: bg, scale: 2 }); return await new Promise(function(r) { canvas.toBlob(r, 'image/png'); }); }
-        finally { document.body.removeChild(wrapper); }
+        try { var canvas = await html2canvas(wrapper, { backgroundColor: bg, scale: 2 }); return await new Promise(
+            function(r) { canvas.toBlob(r, 'image/png'); }); } finally { document.body.removeChild(wrapper); }
       }
-      async function generateScreenshot() { var blob = await generateScreenshotBlob(); if(!blob) return; var url = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = url; a.download = 'reality-check.png'; a.click(); URL.revokeObjectURL(url); showToast(t('toastDownloaded')); }
 
-      function getDaysInMonth(m,y) { return new Date(y,m,0).getDate(); }
+      async function generateScreenshot() { var blob = await generateScreenshotBlob(); if (!blob) return; var url =
+          URL.createObjectURL(blob); var a = document.createElement('a');
+        a.href = url;
+        a.download = 'reality-check.png';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(t('toastDownloaded')); }
+
+      function getDaysInMonth(m, y) { return new Date(y, m, 0).getDate(); }
+
       function renderDayOptions() {
-        dayOverlay.innerHTML = ''; var dim = getDaysInMonth(selectedMonth, selectedYear); if(selectedDay > dim) selectedDay = dim;
-        for(var d=1; d<=dim; d++) { var o = document.createElement('div'); o.className = 'select-option'+(d===selectedDay?' selected':''); o.textContent = d;
-          o.addEventListener('click', function(e) { e.stopPropagation(); selectedDay = parseInt(this.textContent,10); dayTrigger.textContent = this.textContent; closeOverlay(dayOverlay); });
+        dayOverlay.innerHTML = '';
+        var dim = getDaysInMonth(selectedMonth, selectedYear);
+        if (selectedDay > dim) selectedDay = dim;
+        for (var d = 1; d <= dim; d++) { var o = document.createElement('div');
+          o.className = 'select-option' + (d === selectedDay ? ' selected' : '');
+          o.textContent = d;
+          o.addEventListener('click', function(e) { e.stopPropagation();
+            selectedDay = parseInt(this.textContent, 10);
+            dayTrigger.textContent = this.textContent;
+            closeOverlay(dayOverlay); });
           dayOverlay.appendChild(o); }
         dayTrigger.textContent = selectedDay;
       }
+
       function renderMonthOptions() {
         monthOverlay.innerHTML = '';
-        monthNames.forEach(function(n,i) { var mn = i+1; var o = document.createElement('div'); o.className = 'select-option'+(mn===selectedMonth?' selected':''); o.textContent = n;
-          o.addEventListener('click', function(e) { e.stopPropagation(); selectedMonth = mn; monthTrigger.textContent = n; closeOverlay(monthOverlay); renderDayOptions(); });
+        monthNames.forEach(function(n, i) { var mn = i + 1; var o = document.createElement('div');
+          o.className = 'select-option' + (mn === selectedMonth ? ' selected' : '');
+          o.textContent = n;
+          o.addEventListener('click', function(e) { e.stopPropagation();
+            selectedMonth = mn;
+            monthTrigger.textContent = n;
+            closeOverlay(monthOverlay);
+            renderDayOptions(); });
           monthOverlay.appendChild(o); });
-        monthTrigger.textContent = monthNames[selectedMonth-1];
+        monthTrigger.textContent = monthNames[selectedMonth - 1];
       }
+
       function renderYearOptions() {
-        yearOverlay.innerHTML = ''; var cy = new Date().getFullYear();
-        for(var y=cy-1; y>=cy-100; y--) { var o = document.createElement('div'); o.className = 'select-option'+(y===selectedYear?' selected':''); o.textContent = y;
-          o.addEventListener('click', function(e) { e.stopPropagation(); selectedYear = parseInt(this.textContent,10); yearTrigger.textContent = this.textContent; closeOverlay(yearOverlay); renderDayOptions(); });
+        yearOverlay.innerHTML = '';
+        var cy = new Date().getFullYear();
+        for (var y = cy - 1; y >= cy - 100; y--) { var o = document.createElement('div');
+          o.className = 'select-option' + (y === selectedYear ? ' selected' : '');
+          o.textContent = y;
+          o.addEventListener('click', function(e) { e.stopPropagation();
+            selectedYear = parseInt(this.textContent, 10);
+            yearTrigger.textContent = this.textContent;
+            closeOverlay(yearOverlay);
+            renderDayOptions(); });
           yearOverlay.appendChild(o); }
         yearTrigger.textContent = selectedYear;
       }
-      function openOverlay(o) { if(currentOpenOverlay && currentOpenOverlay !== o) closeOverlay(currentOpenOverlay); o.classList.add('open'); currentOpenOverlay = o; }
-      function closeOverlay(o) { o.classList.remove('open'); if(currentOpenOverlay === o) currentOpenOverlay = null; }
-      dayTrigger.addEventListener('click', function(e) { e.stopPropagation(); dayOverlay.classList.contains('open') ? closeOverlay(dayOverlay) : (renderDayOptions(), openOverlay(dayOverlay)); });
-      monthTrigger.addEventListener('click', function(e) { e.stopPropagation(); monthOverlay.classList.contains('open') ? closeOverlay(monthOverlay) : (renderMonthOptions(), openOverlay(monthOverlay)); });
-      yearTrigger.addEventListener('click', function(e) { e.stopPropagation(); yearOverlay.classList.contains('open') ? closeOverlay(yearOverlay) : (renderYearOptions(), openOverlay(yearOverlay)); });
-      document.addEventListener('click', function() { [dayOverlay,monthOverlay,yearOverlay].forEach(function(o) { closeOverlay(o); }); });
 
-      function showQuoteRaw(quote) { quoteTextEl.style.opacity = '0'; quoteAuthorEl.style.opacity = '0'; setTimeout(function() { quoteTextEl.innerHTML = quote.text; quoteAuthorEl.textContent = quote.author; quoteTextEl.style.opacity = '0.7'; quoteAuthorEl.style.opacity = '1'; }, 400); }
+      function openOverlay(o) { if (currentOpenOverlay && currentOpenOverlay !== o) closeOverlay(currentOpenOverlay);
+        o.classList.add('open');
+        currentOpenOverlay = o; }
+
+      function closeOverlay(o) { o.classList.remove('open'); if (currentOpenOverlay === o) currentOpenOverlay = null; }
+
+      dayTrigger.addEventListener('click', function(e) { e.stopPropagation();
+        dayOverlay.classList.contains('open') ? closeOverlay(dayOverlay) : (renderDayOptions(), openOverlay(
+        dayOverlay)); });
+      monthTrigger.addEventListener('click', function(e) { e.stopPropagation();
+        monthOverlay.classList.contains('open') ? closeOverlay(monthOverlay) : (renderMonthOptions(), openOverlay(
+          monthOverlay)); });
+      yearTrigger.addEventListener('click', function(e) { e.stopPropagation();
+        yearOverlay.classList.contains('open') ? closeOverlay(yearOverlay) : (renderYearOptions(), openOverlay(
+          yearOverlay)); });
+      document.addEventListener('click', function() { [dayOverlay, monthOverlay, yearOverlay].forEach(function(o) {
+          closeOverlay(o); }); });
+
+      function showQuoteRaw(quote) { quoteTextEl.style.opacity = '0';
+        quoteAuthorEl.style.opacity = '0';
+        setTimeout(function() { quoteTextEl.innerHTML = quote.text;
+          quoteAuthorEl.textContent = quote.author;
+          quoteTextEl.style.opacity = '0.7';
+          quoteAuthorEl.style.opacity = '1'; }, 400); }
+
       function showQuote(index) { showQuoteRaw(getCurrentQuotes()[index % getCurrentQuotes().length]); }
-      function startQuoteCarousel() { if(quoteIntervalId) clearInterval(quoteIntervalId); currentQuoteIndex = 0; showQuote(0); quoteIntervalId = setInterval(function() { currentQuoteIndex = (currentQuoteIndex+1) % getCurrentQuotes().length; showQuote(currentQuoteIndex); }, 6000); }
-      function stopQuoteCarousel() { if(quoteIntervalId) { clearInterval(quoteIntervalId); quoteIntervalId = null; } }
 
-      function getBirthDateFromSelects() { return new Date(selectedYear, selectedMonth-1, selectedDay); }
-      function computeExactDecimalYears(b) { return (new Date()-b)/(365.25*24*60*60*1000); }
+      function startQuoteCarousel() { if (quoteIntervalId) clearInterval(quoteIntervalId);
+        currentQuoteIndex = 0;
+        showQuote(0);
+        quoteIntervalId = setInterval(function() { currentQuoteIndex = (currentQuoteIndex + 1) % getCurrentQuotes()
+            .length;
+          showQuote(currentQuoteIndex); }, 6000); }
+
+      function stopQuoteCarousel() { if (quoteIntervalId) { clearInterval(quoteIntervalId);
+          quoteIntervalId = null; } }
+
+      function getBirthDateFromSelects() { return new Date(selectedYear, selectedMonth - 1, selectedDay); }
+
+      function computeExactDecimalYears(b) { return (new Date() - b) / (365.25 * 24 * 60 * 60 * 1000); }
+
       function computeLivedDetails(b) {
-        var n = new Date(), d = n-b; if(d<0) return { days:0, weeks:0, months:0, years:0 };
-        var td = Math.floor(d/(1000*60*60*24)), tw = Math.floor(td/7);
-        var y = n.getFullYear()-b.getFullYear(), m = n.getMonth()-b.getMonth(), dd = n.getDate()-b.getDate();
-        if(dd<0) { m--; dd += new Date(n.getFullYear(), n.getMonth(), 0).getDate(); }
-        if(m<0) { y--; m+=12; }
-        return { days:td, weeks:tw, months:y*12+m, years:y };
+        var n = new Date(),
+          d = n - b;
+        if (d < 0) return { days: 0, weeks: 0, months: 0, years: 0 };
+        var td = Math.floor(d / (1000 * 60 * 60 * 24)),
+          tw = Math.floor(td / 7);
+        var y = n.getFullYear() - b.getFullYear(),
+          m = n.getMonth() - b.getMonth(),
+          dd = n.getDate() - b.getDate();
+        if (dd < 0) { m--;
+          dd += new Date(n.getFullYear(), n.getMonth(), 0).getDate(); }
+        if (m < 0) { y--;
+          m += 12; }
+        return { days: td, weeks: tw, months: y * 12 + m, years: y };
       }
+
       function renderGrid(lived) {
-        var c = Math.min(lived, TOTAL_SQUARES); if(c===currentGridYear) return; currentGridYear = c;
+        var c = Math.min(lived, TOTAL_SQUARES);
+        if (c === currentGridYear) return;
+        currentGridYear = c;
         lifeGridEl.innerHTML = '';
-        for(var i=0; i<TOTAL_SQUARES; i++) { var s = document.createElement('div'); s.className = 'square'+(i<c?' filled':''); lifeGridEl.appendChild(s); }
+        for (var i = 0; i < TOTAL_SQUARES; i++) { var s = document.createElement('div');
+          s.className = 'square' + (i < c ? ' filled' : '');
+          lifeGridEl.appendChild(s); }
         gridSummaryEl.textContent = translations[currentLang].gridSummary(c);
-        optimisticRemainingEl.textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN-c));
+        optimisticRemainingEl.textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN - c));
       }
+
       function updateLiveCounter() {
-        if(!birthDate) return; frameCount++;
-        var dy = computeExactDecimalYears(birthDate), parts = dy.toFixed(DECIMAL_PLACES).split('.');
-        yearIntegerEl.textContent = parts[0]; yearDecimalFlowEl.textContent = parts[1];
+        if (!birthDate) return;
+        frameCount++;
+        var dy = computeExactDecimalYears(birthDate),
+          parts = dy.toFixed(DECIMAL_PLACES).split('.');
+        yearIntegerEl.textContent = parts[0];
+        yearDecimalFlowEl.textContent = parts[1];
         var det = computeLivedDetails(birthDate);
-        daysLivedEl.textContent = det.days.toLocaleString(); weeksLivedEl.textContent = det.weeks.toLocaleString(); monthsLivedEl.textContent = det.months.toLocaleString();
-        renderGrid(det.years); updateYearSubtitle(det.years);
+        daysLivedEl.textContent = det.days.toLocaleString();
+        weeksLivedEl.textContent = det.weeks.toLocaleString();
+        monthsLivedEl.textContent = det.months.toLocaleString();
+        renderGrid(det.years);
+        updateYearSubtitle(det.years);
       }
-      function startRealtimeUpdates() { if(animationFrameId) cancelAnimationFrame(animationFrameId); function tick() { updateLiveCounter(); animationFrameId = requestAnimationFrame(tick); } tick(); }
-      function stopRealtimeUpdates() { if(animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } }
-      
+
+      function startRealtimeUpdates() { if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+        function tick() { updateLiveCounter();
+          animationFrameId = requestAnimationFrame(tick); }
+        tick(); }
+
+      function stopRealtimeUpdates() { if (animationFrameId) { cancelAnimationFrame(animationFrameId);
+          animationFrameId = null; } }
+
       function showStatsPanel() {
         dateInputPanel.style.display = 'none';
         statsPanel.classList.add('active');
         currentGridYear = -1;
-        if(birthDate) {
+        if (birthDate) {
           updateLiveCounter();
           startRealtimeUpdates();
         }
         startQuoteCarousel();
       }
-      
+
       function showInputPanel() {
         stopRealtimeUpdates();
         stopQuoteCarousel();
@@ -1395,19 +1658,20 @@
 
       realityBtn.addEventListener('click', function() {
         var nd = getBirthDateFromSelects();
-        if(nd > new Date()) { alert(t('futureError')); return; }
+        if (nd > new Date()) { alert(t('futureError')); return; }
         stopRealtimeUpdates();
         birthDate = nd;
         saveBirthDate(birthDate);
         showStatsPanel();
       });
-      
-      window.addEventListener('beforeunload', function() { stopRealtimeUpdates(); stopQuoteCarousel(); });
-      
+
+      window.addEventListener('beforeunload', function() { stopRealtimeUpdates();
+        stopQuoteCarousel(); });
+
       renderDayOptions();
       renderMonthOptions();
       renderYearOptions();
-      
+
       var savedDate = loadBirthDate();
       if (savedDate) {
         birthDate = savedDate;
