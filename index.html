@@ -2,11 +2,17 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0a0a0a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Reality Check</title>
+
+  <!-- Манифест -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJlYWxpdHkgQ2hlY2siLAogICJzaG9ydF9uYW1lIjogIlJlYWxpdHkgQ2hlY2siLAogICJkZXNjcmlwdGlvbiI6ICLQodC60L7Qu9GM0LrQviDQttC40LfQvdC4IiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGEwYTBhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ3JlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIGZpbGw9JyUyMzBhMGEwYScgcng9JzY0Jy8lM0UlM0N0ZXh0IHg9JzI1NicgeT0nMzIwJyBmb250LXNpemU9JzI1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nJTIzZmZmJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZiclM0Xwn5OQICUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrIGFueWxhbmciCiAgICB9CiAgXSwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJwcmVmZXJfcmVsYXRlZF9hcHBsaWNhdGlvbnMiOiBbXSwKICAic2NvcGUiOiBbXQp9">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E📐%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E📐%3C/text%3E%3C/svg%3E">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
   </script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
@@ -20,7 +26,7 @@
       --text-secondary: #5a5a5a;
       --text-muted: #4a4a4a;
       --text-dim: #6a6a6a;
-      --panel-bg: rgba(12, 12, 12, 0.8);
+      --panel-bg: rgba(12, 12, 12, 0.6);
       --panel-border: #262626;
       --select-bg: #141414;
       --select-border: #2c2c2c;
@@ -136,7 +142,6 @@
       box-sizing: border-box;
     }
 
-    /* ----- ГРАДИЕНТ НА HTML (без швов) ----- */
     html {
       height: 100%;
       min-height: 100vh;
@@ -150,7 +155,6 @@
       transition: background 0.5s ease;
     }
 
-    /* ----- iOS: статус-бар и подложка ----- */
     body {
       min-height: 100vh;
       min-height: 100dvh;
@@ -170,7 +174,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ----- Обёртка (прозрачная) ----- */
     .app-wrapper {
       display: flex;
       flex-direction: column;
@@ -182,7 +185,6 @@
       background: transparent;
     }
 
-    /* ----- Остальные стили (без изменений) ----- */
     .sidebar-toggle {
       position: fixed;
       left: 0;
@@ -661,6 +663,10 @@
       line-height: 1.1;
       font-feature-settings: "tnum";
       font-variant-numeric: tabular-nums;
+      font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
+      min-width: 4ch;
+      display: inline-block;
+      text-align: center;
       transition: color 0.5s ease;
     }
 
@@ -718,11 +724,13 @@
     .square {
       aspect-ratio: 1 / 1;
       width: 100%;
-      min-width: 18px;
+      max-width: 32px;
+      min-width: 14px;
       background: var(--square-empty);
       border: 1px solid var(--square-empty-border);
       transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease, transform 0.15s ease;
       cursor: default;
+      justify-self: center;
     }
 
     .square.filled {
@@ -954,7 +962,7 @@
     }
 
     /* ============================================================
-       ФУТЕР — увеличенный отступ снизу
+       ФУТЕР — УНИФИЦИРОВАН С BREATH
        ============================================================ */
     .footer {
       flex-shrink: 0;
@@ -964,9 +972,9 @@
       align-items: center;
       gap: 0.7rem;
       color: var(--footer-text);
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       letter-spacing: 0.15em;
-      padding: 1.8rem 1rem 3rem;  /* увеличен нижний отступ с 1.2rem до 3rem */
+      padding: 1.8rem 1rem 3rem;
       background: transparent;
       border-top: 1px solid var(--footer-border);
       transition: color 0.5s ease, border-color 0.5s ease;
@@ -981,17 +989,21 @@
       white-space: nowrap;
     }
 
+    /* ССЫЛКИ — ТОЧНО КАК В BREATH */
     .footer a {
       color: var(--footer-link);
-      text-decoration: none;
-      transition: color 0.25s;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: transparent;
+      transition: text-decoration-color 0.25s, color 0.25s;
+      font-weight: 400;
+      letter-spacing: 0.02em;
     }
 
     .footer a:hover {
       color: var(--footer-link-hover);
-      border-bottom-color: #444;
+      text-decoration-color: currentColor;
     }
 
     .footer .year {
@@ -1032,6 +1044,7 @@
       .square {
         min-width: auto;
         width: 100%;
+        max-width: 100%;
       }
       .quote-carousel {
         height: 5.5rem;
@@ -1053,7 +1066,7 @@
       }
       .footer .links {
         gap: 1.2rem;
-        font-size: 0.65rem;
+        font-size: 0.7rem;
       }
     }
   </style>
@@ -1162,12 +1175,13 @@
       </div>
     </div>
 
-    <!-- Футер — теперь с увеличенным отступом снизу -->
+    <!-- Футер с унифицированными ссылками -->
     <div class="footer">
       <div class="links">
         <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
         <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
         <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+      </div>
     </div>
 
   </div>
@@ -1395,20 +1409,22 @@
             .classList.remove('open');
           sidebarToggle.classList.remove('active'); } });
 
-      // ----- ТЕМА: переключение с обновлением фона на html -----
+      // ----- ТЕМА: ФИКС ОБНОВЛЕНИЯ ФОНА -----
       function applyTheme(theme) {
         var isLight = theme === 'light';
-        // Переключаем класс на body
         document.body.classList.toggle('light-theme', isLight);
-        // Меняем иконку
         toggleIcon.textContent = isLight ? '☀️' : '🌙';
-        // !!! Важно: обновляем фон на html, потому что переменные меняются
-        var bgGradient = getComputedStyle(document.documentElement).getPropertyValue('--bg-gradient').trim();
-        document.documentElement.style.background = bgGradient;
+
+        // Принудительно задаем фон на html в зависимости от темы
+        if (isLight) {
+          document.documentElement.style.background = 'radial-gradient(circle at 50% 40%, #e8e8e8 0%, #f5f5f5 100%)';
+        } else {
+          document.documentElement.style.background = 'radial-gradient(circle at 50% 40%, #121212 0%, #050505 100%)';
+        }
+
         localStorage.setItem('reality-check-theme', theme);
       }
 
-      // Применяем сохранённую тему при загрузке
       var savedTheme = localStorage.getItem('reality-check-theme') || 'dark';
       applyTheme(savedTheme);
 
@@ -1417,7 +1433,7 @@
         applyTheme(isLight ? 'dark' : 'light');
       });
 
-      // ----- Язык -----
+      // ----- ЯЗЫК -----
       var savedLang = localStorage.getItem('reality-check-lang') || 'ru';
       currentLang = savedLang;
       if (currentLang === 'en') document.body.classList.add('lang-en');
