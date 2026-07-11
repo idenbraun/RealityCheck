@@ -1,1725 +1,2068 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Reality Check</title>
-
-  <!-- Манифест -->
-  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJlYWxpdHkgQ2hlY2siLAogICJzaG9ydF9uYW1lIjogIlJlYWxpdHkgQ2hlY2siLAogICJkZXNjcmlwdGlvbiI6ICLQodC60L7Qu9GM0LrQviDQttC40LfQvdC4IiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGEwYTBhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ3JlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIGZpbGw9JyUyMzBhMGEwYScgcng9JzY0Jy8lM0UlM0N0ZXh0IHg9JzI1NicgeT0nMzIwJyBmb250LXNpemU9JzI1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nJTIzZmZmJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZiclM0Xwn5OQICUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrIGFueWxhbmciCiAgICB9CiAgXSwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJwcmVmZXJfcmVsYXRlZF9hcHBsaWNhdGlvbnMiOiBbXSwKICAic2NvcGUiOiBbXQp9">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E📐%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E📐%3C/text%3E%3C/svg%3E">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-  </script>
-  <style>
-    /* ----- CSS-переменные (тёмная тема по умолчанию) ----- */
-    :root {
-      --bg: #0a0a0a;
-      --bg-gradient: radial-gradient(circle at 50% 40%, #121212 0%, #050505 100%);
-      --text: #e0e0e0;
-      --text-secondary: #5a5a5a;
-      --text-muted: #4a4a4a;
-      --text-dim: #6a6a6a;
-      --panel-bg: rgba(12, 12, 12, 0.6);
-      --panel-border: #262626;
-      --select-bg: #141414;
-      --select-border: #2c2c2c;
-      --select-text: #eaeaea;
-      --overlay-bg: #141414;
-      --overlay-border: #2c2c2c;
-      --option-text: #b0b0b0;
-      --option-hover-bg: #222;
-      --option-hover-text: #fff;
-      --option-selected-bg: #1a1a1a;
-      --btn-border: #3a3a3a;
-      --btn-text: #cccccc;
-      --square-empty: #181818;
-      --square-empty-border: #2a2a2a;
-      --square-filled: #d4d4d4;
-      --square-filled-border: #6a6a6a;
-      --footer-text: #3a3a3a;
-      --footer-link: #6a6a6a;
-      --footer-link-hover: #c0c0c0;
-      --footer-border: #181818;
-      --grid-title-bg: #141414;
-      --grid-title-text: #909090;
-      --sidebar-border: #1a1a1a;
-      --toggle-track: #3a3a3a;
-      --optimistic-text: #6a6a6a;
-      --dot-color: #a0a0a0;
-      --year-int: #f5f5f5;
-      --stat-number: #9a9a9a;
-      --quote-text: #5a5a5a;
-      --quote-author: #444;
-      --notification-bg: #1a1a1a;
-      --notification-text: #c0c0c0;
-      --share-btn-bg: rgba(20, 20, 20, 0.6);
-      --share-btn-border: #333;
-      --share-btn-text: #999;
-      --share-btn-hover-bg: #2a2a2a;
-      --share-btn-hover-text: #ddd;
-      --share-btn-hover-border: #555;
-      --modal-bg: rgba(10,10,10,0.95);
-      --modal-border: #2a2a2a;
-      --modal-option-hover: #1e1e1e;
-      --back-btn-bg: rgba(20, 20, 20, 0.6);
-      --back-btn-border: #333;
-      --back-btn-text: #999;
-      --back-btn-hover-bg: #2a2a2a;
-      --back-btn-hover-text: #ddd;
-      --back-btn-hover-border: #555;
-      --qr-bg: #ffffff;
-    }
-
-    /* ----- Светлая тема ----- */
-    .light-theme {
-      --bg: #f5f5f5;
-      --bg-gradient: radial-gradient(circle at 50% 40%, #e8e8e8 0%, #f5f5f5 100%);
-      --text: #1a1a1a;
-      --text-secondary: #777;
-      --text-muted: #888;
-      --text-dim: #555;
-      --panel-bg: rgba(255, 255, 255, 0.8);
-      --panel-border: #ddd;
-      --select-bg: #fff;
-      --select-border: #ddd;
-      --select-text: #1a1a1a;
-      --overlay-bg: #fff;
-      --overlay-border: #ddd;
-      --option-text: #555;
-      --option-hover-bg: #f0f0f0;
-      --option-hover-text: #1a1a1a;
-      --option-selected-bg: #e8e8e8;
-      --btn-border: #ccc;
-      --btn-text: #555;
-      --square-empty: #e0e0e0;
-      --square-empty-border: #d0d0d0;
-      --square-filled: #1a1a1a;
-      --square-filled-border: #333;
-      --footer-text: #888;
-      --footer-link: #777;
-      --footer-link-hover: #1a1a1a;
-      --footer-border: #e0e0e0;
-      --grid-title-bg: #f0f0f0;
-      --grid-title-text: #555;
-      --sidebar-border: #e0e0e0;
-      --toggle-track: #ddd;
-      --optimistic-text: #777;
-      --dot-color: #777;
-      --year-int: #1a1a1a;
-      --stat-number: #777;
-      --quote-text: #777;
-      --quote-author: #999;
-      --notification-bg: #f0f0f0;
-      --notification-text: #444;
-      --share-btn-bg: rgba(240, 240, 240, 0.7);
-      --share-btn-border: #ddd;
-      --share-btn-text: #777;
-      --share-btn-hover-bg: #e0e0e0;
-      --share-btn-hover-text: #1a1a1a;
-      --share-btn-hover-border: #aaa;
-      --modal-bg: rgba(250,250,250,0.95);
-      --modal-border: #ddd;
-      --modal-option-hover: #f0f0f0;
-      --back-btn-bg: rgba(240, 240, 240, 0.7);
-      --back-btn-border: #ddd;
-      --back-btn-text: #777;
-      --back-btn-hover-bg: #e0e0e0;
-      --back-btn-hover-text: #1a1a1a;
-      --back-btn-hover-border: #aaa;
-    }
-
-    /* ----- Сброс и база ----- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      height: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: var(--bg);
-      background: var(--bg-gradient);
-      background-attachment: fixed;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center center;
-      transition: background 0.5s ease;
-    }
-
-    body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      margin: 0;
-      padding: 1.5rem 1.5rem 0 1.5rem;
-      font-family: 'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
-      color: var(--text);
-      letter-spacing: -0.01em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background: transparent;
-      transition: color 0.5s ease;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .app-wrapper {
-      display: flex;
-      flex-direction: column;
-      flex: 1 0 auto;
-      width: 100%;
-      max-width: 820px;
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: transparent;
-    }
-
-    .sidebar-toggle {
-      position: fixed;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 8px;
-      height: 48px;
-      background: var(--sidebar-border);
-      border: none;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      z-index: 25;
-      transition: all 0.3s ease;
-      opacity: 0.5;
-    }
-
-    .sidebar-toggle:hover {
-      opacity: 1;
-      width: 10px;
-      background: var(--footer-link);
-    }
-
-    .sidebar-toggle.active {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .sidebar {
-      position: fixed;
-      left: -120px;
-      top: 0;
-      bottom: 0;
-      width: 120px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem 0.5rem;
-      gap: 2rem;
-      border-right: 1px solid var(--sidebar-border);
-      z-index: 20;
-      background: var(--bg);
-      transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, border-color 0.5s ease;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .sidebar-dots {
-      display: flex;
-      gap: 5px;
-      opacity: 0.3;
-      margin-top: auto;
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-dots span {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--text-muted);
-    }
-
-    .sidebar-label {
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: -1.2rem;
-      transition: color 0.3s ease;
-    }
-
-    .toggle-track {
-      width: 52px;
-      height: 28px;
-      background: var(--toggle-track);
-      border-radius: 14px;
-      cursor: pointer;
-      position: relative;
-      transition: background 0.3s ease;
-      display: flex;
-      align-items: center;
-    }
-
-    .toggle-thumb {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      background: #fff;
-      border-radius: 50%;
-      left: 3px;
-      top: 3px;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      line-height: 1;
-    }
-
-    .light-theme .toggle-thumb {
-      transform: translateX(24px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .lang-toggle-track {
-      width: 52px;
-      height: 28px;
-      background: var(--toggle-track);
-      border-radius: 14px;
-      cursor: pointer;
-      position: relative;
-      transition: background 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lang-toggle-thumb {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      background: #fff;
-      border-radius: 50%;
-      left: 3px;
-      top: 3px;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: #333;
-    }
-
-    .lang-en .lang-toggle-thumb {
-      transform: translateX(24px);
-    }
-
-    .lang-label-left,
-    .lang-label-right {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.5;
-      transition: opacity 0.3s ease;
-    }
-
-    .lang-label-left {
-      margin-right: auto;
-      margin-left: 6px;
-      color: #fff;
-    }
-
-    .lang-label-right {
-      margin-left: auto;
-      margin-right: 6px;
-      color: #fff;
-    }
-
-    .lang-en .lang-label-right {
-      opacity: 1;
-    }
-    .lang-en .lang-label-left {
-      opacity: 0.3;
-    }
-    body:not(.lang-en) .lang-label-left {
-      opacity: 1;
-    }
-    body:not(.lang-en) .lang-label-right {
-      opacity: 0.3;
-    }
-
-    .page-content {
-      flex: 1 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding-bottom: 2rem;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 820px;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 2.5rem;
-    }
-
-    .date-input-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      width: 100%;
-      background: var(--panel-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--panel-border);
-      border-radius: 2.5rem;
-      padding: 2.5rem 2rem 3rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-      transition: all 0.5s ease;
-    }
-
-    .input-heading {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      color: var(--text-secondary);
-      font-weight: 400;
-      margin-bottom: 0.2rem;
-      transition: color 0.5s ease;
-    }
-
-    .selectors {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-wrap: nowrap;
-      gap: 0.4rem;
-      background: transparent;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .select-wrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.6rem;
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    .select-wrapper label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      color: var(--text-secondary);
-      font-weight: 500;
-      white-space: nowrap;
-      transition: color 0.5s ease;
-    }
-
-    .custom-select-container {
-      position: relative;
-      width: 100%;
-    }
-
-    .select-trigger {
-      appearance: none;
-      -webkit-appearance: none;
-      background: var(--select-bg);
-      border: 1px solid var(--select-border);
-      border-radius: 2.5rem;
-      padding: 0.9rem 2.4rem 0.9rem 1.2rem;
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: var(--select-text);
-      cursor: pointer;
-      text-align: center;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 0.7rem center;
-      background-size: 1.1rem;
-      font-family: inherit;
-      transition: border-color 0.25s, background-color 0.25s, color 0.5s ease;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-
-    .select-trigger:hover {
-      border-color: #555;
-      background-color: var(--option-hover-bg);
-    }
-
-    .select-overlay {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--overlay-bg);
-      border: 1px solid var(--overlay-border);
-      border-radius: 1rem;
-      margin-top: 0.3rem;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 10;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      transition: background 0.5s ease, border-color 0.5s ease;
-    }
-
-    .select-overlay.open {
-      display: block;
-    }
-
-    .select-option {
-      padding: 0.6rem 1rem;
-      font-size: 0.95rem;
-      color: var(--option-text);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      text-align: center;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-    }
-
-    .select-option:last-child {
-      border-bottom: none;
-    }
-
-    .select-option:hover {
-      background: var(--option-hover-bg);
-      color: var(--option-hover-text);
-    }
-
-    .select-option.selected {
-      background: var(--option-selected-bg);
-      color: var(--option-hover-text);
-    }
-
-    .reality-btn {
-      background: transparent;
-      border: 1px solid var(--btn-border);
-      color: var(--btn-text);
-      font-weight: 500;
-      font-size: 1rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      padding: 1rem 3.5rem;
-      border-radius: 3rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-      margin-top: 0.8rem;
-      background: rgba(20, 20, 20, 0.3);
-      backdrop-filter: blur(8px);
-    }
-
-    .reality-btn:hover {
-      background: #ffffff;
-      color: #000;
-      border-color: #fff;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-      letter-spacing: 0.45em;
-    }
-
-    .light-theme .reality-btn:hover {
-      background: #1a1a1a;
-      color: #fff;
-      border-color: #1a1a1a;
-    }
-
-    .reality-btn:active {
-      transform: scale(0.96);
-    }
-
-    .stats-panel {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      gap: 2.5rem;
-      transition: opacity 0.4s ease;
-    }
-
-    .stats-panel.active {
-      display: flex;
-    }
-
-    .year-decimal-timer {
-      background: transparent;
-      padding: 3rem 1.5rem 0.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-    }
-
-    .big-year-number {
-      font-size: clamp(4rem, 12vw, 7rem);
-      font-weight: 350;
-      letter-spacing: -0.02em;
-      color: var(--year-int);
-      line-height: 1;
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-      text-shadow: 0 0 30px rgba(128, 128, 128, 0.15);
-      font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
-      word-break: break-word;
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      transition: color 0.5s ease;
-    }
-
-    .year-integer {
-      color: var(--year-int);
-      transition: color 0.5s ease;
-    }
-    .year-dot {
-      color: var(--dot-color);
-      font-size: 0.7em;
-      margin: 0 0.02em;
-      transition: color 0.5s ease;
-    }
-    .year-decimal-flow {
-      color: var(--dot-color);
-      font-size: 0.7em;
-      letter-spacing: 0.04em;
-      display: inline-block;
-      transition: color 0.5s ease;
-    }
-
-    .year-subtitle {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.4em;
-      color: var(--text-secondary);
-      margin-top: 0.2rem;
-      margin-bottom: 0.8rem;
-      transition: color 0.5s ease;
-    }
-
-    .secondary-stats {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 3rem;
-      width: 100%;
-      opacity: 0.7;
-      padding: 0.5rem 1rem;
-    }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 75px;
-    }
-
-    .stat-number {
-      font-size: 1.7rem;
-      font-weight: 350;
-      letter-spacing: -0.02em;
-      color: var(--stat-number);
-      line-height: 1.1;
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-      font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
-      min-width: 4ch;
-      display: inline-block;
-      text-align: center;
-      transition: color 0.5s ease;
-    }
-
-    .stat-label {
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-      transition: color 0.5s ease;
-    }
-
-    .grid-section {
-      width: 100%;
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .grid-title {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      transition: color 0.5s ease;
-    }
-
-    .grid-title span {
-      background: var(--grid-title-bg);
-      padding: 0.2rem 1rem;
-      border-radius: 2rem;
-      font-weight: 500;
-      color: var(--grid-title-text);
-      border: 1px solid var(--panel-border);
-      transition: all 0.5s ease;
-    }
-
-    .life-grid {
-      display: grid;
-      grid-template-columns: repeat(25, 1fr);
-      gap: 6px;
-      background: transparent;
-      max-width: 800px;
-      margin: 0 auto;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .square {
-      aspect-ratio: 1 / 1;
-      width: 100%;
-      max-width: 32px;
-      min-width: 14px;
-      background: var(--square-empty);
-      border: 1px solid var(--square-empty-border);
-      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease, transform 0.15s ease;
-      cursor: default;
-      justify-self: center;
-    }
-
-    .square.filled {
-      background: var(--square-filled);
-      border-color: var(--square-filled-border);
-      box-shadow: 0 0 8px rgba(128, 128, 128, 0.15);
-    }
-
-    .square:hover {
-      border-color: #888;
-      box-shadow: 0 0 12px rgba(128, 128, 128, 0.3);
-      transform: scale(1.15);
-      z-index: 2;
-      position: relative;
-    }
-
-    .square.filled:hover {
-      background: var(--square-filled);
-      border-color: #aaa;
-    }
-    .light-theme .square.filled:hover {
-      background: #333;
-    }
-
-    .optimistic-remaining {
-      font-size: 0.7rem;
-      font-weight: 350;
-      letter-spacing: 0.05em;
-      color: var(--optimistic-text);
-      opacity: 0.7;
-      margin-top: 0.8rem;
-      transition: color 0.5s ease;
-    }
-
-    .quote-carousel {
-      width: 100%;
-      max-width: 650px;
-      height: 6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1.2rem;
-      overflow: hidden;
-    }
-
-    .quote-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-    }
-
-    .quote-text {
-      font-size: 0.9rem;
-      font-weight: 350;
-      letter-spacing: 0.04em;
-      color: var(--quote-text);
-      opacity: 0.7;
-      line-height: 1.4;
-      transition: opacity 0.8s ease, color 0.5s ease;
-      font-style: italic;
-      max-width: 100%;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      text-align: center;
-    }
-
-    .quote-author {
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: var(--quote-author);
-      margin-top: 0.2rem;
-      font-style: normal;
-      transition: opacity 0.8s ease, color 0.5s ease;
-    }
-
-    .bottom-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 0.8rem;
-    }
-
-    .back-btn-bottom {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--back-btn-bg);
-      border: 1px solid var(--back-btn-border);
-      color: var(--back-btn-text);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 0.7rem 2.5rem;
-      border-radius: 2.5rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-family: inherit;
-      backdrop-filter: blur(8px);
-    }
-
-    .back-btn-bottom:hover {
-      background: var(--back-btn-hover-bg);
-      color: var(--back-btn-hover-text);
-      border-color: var(--back-btn-hover-border);
-    }
-
-    .share-btn-bottom {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--share-btn-bg);
-      border: 1px solid var(--share-btn-border);
-      color: var(--share-btn-text);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 0.7rem 2.5rem;
-      border-radius: 2.5rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-family: inherit;
-      backdrop-filter: blur(8px);
-    }
-
-    .share-btn-bottom:hover {
-      background: var(--share-btn-hover-bg);
-      color: var(--share-btn-hover-text);
-      border-color: var(--share-btn-hover-border);
-    }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 50;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal {
-      background: var(--modal-bg);
-      border: 1px solid var(--modal-border);
-      border-radius: 1.5rem;
-      padding: 1.8rem;
-      min-width: 260px;
-      backdrop-filter: blur(20px);
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      align-items: center;
-    }
-
-    .modal-qr {
-      background: var(--qr-bg);
-      padding: 10px;
-      border-radius: 12px;
-      line-height: 0;
-      margin-bottom: 0.3rem;
-    }
-
-    .modal-qr canvas,
-    .modal-qr img {
-      display: block;
-      border-radius: 4px;
-    }
-
-    .modal-option {
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 0.8rem;
-      padding: 0.7rem 1.2rem;
-      border-radius: 1rem;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.2s;
-      letter-spacing: 0.05em;
-      width: 100%;
-    }
-
-    .modal-option:hover {
-      background: var(--modal-option-hover);
-    }
-
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.7rem;
-      padding: 0.5rem 1.2rem;
-      cursor: pointer;
-      text-align: center;
-      letter-spacing: 0.1em;
-      width: 100%;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--notification-bg);
-      color: var(--notification-text);
-      padding: 0.7rem 1.5rem;
-      border-radius: 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      z-index: 100;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(12px);
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ============================================================
-       ФУТЕР — УНИФИЦИРОВАН С BREATH
-       ============================================================ */
-    .footer {
-      flex-shrink: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.7rem;
-      color: var(--footer-text);
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      padding: 1.8rem 1rem 3rem;
-      background: transparent;
-      border-top: 1px solid var(--footer-border);
-      transition: color 0.5s ease, border-color 0.5s ease;
-      margin-top: auto;
-    }
-
-    .footer .links {
-      display: flex;
-      gap: 2.2rem;
-      flex-wrap: nowrap;
-      justify-content: center;
-      white-space: nowrap;
-    }
-
-    /* ССЫЛКИ — ТОЧНО КАК В BREATH */
-    .footer a {
-      color: var(--footer-link);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-thickness: 1px;
-      text-decoration-color: transparent;
-      transition: text-decoration-color 0.25s, color 0.25s;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-    }
-
-    .footer a:hover {
-      color: var(--footer-link-hover);
-      text-decoration-color: currentColor;
-    }
-
-    .footer .year {
-      color: var(--footer-text);
-      margin-top: 0.1rem;
-      transition: color 0.5s ease;
-    }
-
-    @media (max-width: 500px) {
-      body {
-        padding: 0.8rem 0.8rem 0 0.8rem;
-        min-height: 100dvh;
-      }
-      .container {
-        max-width: 100%;
-      }
-      .selectors {
-        gap: 0.2rem;
-      }
-      .select-trigger {
-        padding: 0.7rem 1.5rem 0.7rem 0.6rem;
-        font-size: 1rem;
-      }
-      .year-decimal-timer {
-        padding: 4rem 1rem 0.5rem;
-      }
-      .big-year-number {
-        font-size: 3.5rem;
-      }
-      .secondary-stats {
-        gap: 2rem;
-      }
-      .life-grid {
-        grid-template-columns: repeat(25, 1fr);
-        gap: 2px;
-        max-width: calc(100vw - 1.6rem);
-      }
-      .square {
-        min-width: auto;
-        width: 100%;
-        max-width: 100%;
-      }
-      .quote-carousel {
-        height: 5.5rem;
-        max-width: 100%;
-      }
-      .quote-text {
-        font-size: 0.75rem;
-      }
-      .bottom-actions {
-        gap: 0.6rem;
-      }
-      .back-btn-bottom,
-      .share-btn-bottom {
-        padding: 0.6rem 1.5rem;
-      }
-      .modal {
-        padding: 1.4rem;
-        min-width: 240px;
-      }
-      .footer .links {
-        gap: 1.2rem;
-        font-size: 0.7rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Memento</title>
+
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1lbWVudG8iLAogICJzaG9ydF9uYW1lIjogIk1lbWVudG8iLAogICJkZXNjcmlwdGlvbiI6ICLQn9C+0LzQvdC4INC+INC60L7QvdC10YfQvdC+0YHRgtC4IiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGEwYTBhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ3JlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIGZpbGw9JyUyMzBhMGEwYScgcng9JzY0Jy8lM0UlM0N0ZXh0IHg9JzI1NicgeT0nMzIwJyBmb250LXNpemU9JzI1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nJTIzZmZmJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZiclM0XilpUlMjAlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFzayBhbnlsYW5nIgogICAgfQogIF0sCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0Igp9">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E▪%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a' rx='64'/%3E%3Ctext x='256' y='320' font-size='250' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E▪%3C/text%3E%3C/svg%3E">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* ============================================================
+           ПЕРЕМЕННЫЕ — ТЁМНАЯ ТЕМА
+           ============================================================ */
+        :root {
+            --bg: #0a0a0a;
+            --text: #e0e0e0;
+            --text-secondary: #7a7a7a;
+            --text-muted: #5a5a5a;
+            --panel-bg: rgba(12, 12, 12, 0.6);
+            --panel-border: #262626;
+            --select-bg: #141414;
+            --select-border: #2c2c2c;
+            --select-text: #eaeaea;
+            --overlay-bg: #141414;
+            --overlay-border: #2c2c2c;
+            --option-text: #b0b0b0;
+            --option-hover-bg: #222;
+            --option-hover-text: #fff;
+            --option-selected-bg: #1a1a1a;
+            --btn-border: #3a3a3a;
+            --btn-text: #cccccc;
+            --square-empty: #181818;
+            --square-empty-border: #2a2a2a;
+            --square-filled: #d4d4d4;
+            --square-filled-border: #6a6a6a;
+            --footer-text: #4a4a4a;
+            --footer-link: #7a7a7a;
+            --footer-link-hover: #c0c0c0;
+            --footer-border: #181818;
+            --grid-title-bg: #141414;
+            --grid-title-text: #a0a0a0;
+            --sidebar-border: #1a1a1a;
+            --toggle-track: #3a3a3a;
+            --optimistic-text: #7a7a7a;
+            --dot-color: #b0b0b0;
+            --year-int: #f5f5f5;
+            --stat-number: #aaaaaa;
+            --quote-text: #6a6a6a;
+            --quote-author: #555;
+            --notification-bg: #1a1a1a;
+            --notification-text: #c0c0c0;
+            --share-btn-bg: rgba(20, 20, 20, 0.6);
+            --share-btn-border: #333;
+            --share-btn-text: #aaa;
+            --share-btn-hover-bg: #2a2a2a;
+            --share-btn-hover-text: #ddd;
+            --share-btn-hover-border: #555;
+            --modal-bg: rgba(10,10,10,0.95);
+            --modal-border: #2a2a2a;
+            --modal-option-hover: #1e1e1e;
+            --back-btn-bg: rgba(20, 20, 20, 0.6);
+            --back-btn-border: #333;
+            --back-btn-text: #aaa;
+            --back-btn-hover-bg: #2a2a2a;
+            --back-btn-hover-text: #ddd;
+            --back-btn-hover-border: #555;
+            --qr-bg: #ffffff;
+            --memento-logo-text: #a0a0a0;
+        }
+
+        /* ============================================================
+           ПЕРЕМЕННЫЕ — СВЕТЛАЯ ТЕМА
+           ============================================================ */
+        .light-theme {
+            --bg: #f5f5f5;
+            --text: #1a1a1a;
+            --text-secondary: #666;
+            --text-muted: #777;
+            --panel-bg: rgba(255, 255, 255, 0.8);
+            --panel-border: #ddd;
+            --select-bg: #fff;
+            --select-border: #ddd;
+            --select-text: #1a1a1a;
+            --overlay-bg: #fff;
+            --overlay-border: #ddd;
+            --option-text: #555;
+            --option-hover-bg: #f0f0f0;
+            --option-hover-text: #1a1a1a;
+            --option-selected-bg: #e8e8e8;
+            --btn-border: #ccc;
+            --btn-text: #666;
+            --square-empty: #e0e0e0;
+            --square-empty-border: #d0d0d0;
+            --square-filled: #1a1a1a;
+            --square-filled-border: #333;
+            --footer-text: #777;
+            --footer-link: #666;
+            --footer-link-hover: #1a1a1a;
+            --footer-border: #e0e0e0;
+            --grid-title-bg: #f0f0f0;
+            --grid-title-text: #666;
+            --sidebar-border: #e0e0e0;
+            --toggle-track: #ddd;
+            --optimistic-text: #666;
+            --dot-color: #888;
+            --year-int: #1a1a1a;
+            --stat-number: #666;
+            --quote-text: #666;
+            --quote-author: #888;
+            --notification-bg: #f0f0f0;
+            --notification-text: #444;
+            --share-btn-bg: rgba(240, 240, 240, 0.7);
+            --share-btn-border: #ddd;
+            --share-btn-text: #666;
+            --share-btn-hover-bg: #e0e0e0;
+            --share-btn-hover-text: #1a1a1a;
+            --share-btn-hover-border: #aaa;
+            --modal-bg: rgba(250,250,250,0.95);
+            --modal-border: #ddd;
+            --modal-option-hover: #f0f0f0;
+            --back-btn-bg: rgba(240, 240, 240, 0.7);
+            --back-btn-border: #ddd;
+            --back-btn-text: #666;
+            --back-btn-hover-bg: #e0e0e0;
+            --back-btn-hover-text: #1a1a1a;
+            --back-btn-hover-border: #aaa;
+            --memento-logo-text: #888;
+        }
+
+        /* ============================================================
+           СБРОС И БАЗА
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            background: var(--bg);
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            font-family: 'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: var(--bg);
+            transition: color 0.5s ease, background 0.5s ease;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .app-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1 0 auto;
+            width: 100%;
+            max-width: 820px;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        .page-content {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding-top: clamp(2rem, 8vh, 5rem);
+            padding-bottom: 4rem;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        /* ============================================================
+           ХЕДЕР
+           ============================================================ */
+        .header {
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 15px;
+            letter-spacing: 6px;
+            color: var(--memento-logo-text);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            transition: color 0.5s ease;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 2.2vw, 16px);
+            font-weight: 350;
+            line-height: 1.5;
+            max-width: 100%;
+            opacity: 0.85;
+            transition: color 0.5s ease;
+        }
+
+        /* ============================================================
+           ФУТЕР
+           ============================================================ */
+        .footer {
+            flex-shrink: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--footer-text);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            padding: 1.8rem 1rem 3rem;
+            border-top: 1px solid var(--footer-border);
+            transition: color 0.5s ease, border-color 0.5s ease;
+            margin-top: auto;
+        }
+
+        .footer .links {
+            display: flex;
+            gap: 2.2rem;
+            flex-wrap: nowrap;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .footer a {
+            color: var(--footer-link);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            text-decoration-color: transparent;
+            transition: text-decoration-color 0.25s, color 0.25s;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .footer a:hover {
+            color: var(--footer-link-hover);
+            text-decoration-color: currentColor;
+        }
+
+        /* ============================================================
+           САЙДБАР
+           ============================================================ */
+        .sidebar-toggle {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 48px;
+            background: var(--sidebar-border);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            z-index: 25;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .sidebar-toggle:hover {
+            opacity: 1;
+            width: 10px;
+            background: var(--footer-link);
+        }
+
+        .sidebar-toggle.active {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: -120px;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 0.5rem;
+            gap: 2rem;
+            border-right: 1px solid var(--sidebar-border);
+            z-index: 20;
+            background: var(--bg);
+            transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, border-color 0.5s ease;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .sidebar-dots {
+            display: flex;
+            gap: 5px;
+            opacity: 0.3;
+            margin-top: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-dots span {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .sidebar-label {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: -1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-track {
+            width: 52px;
+            height: 28px;
+            background: var(--toggle-track);
+            border-radius: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-thumb {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            line-height: 1;
+        }
+
+        .light-theme .toggle-thumb {
+            transform: translateX(24px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .lang-toggle-track {
+            width: 52px;
+            height: 28px;
+            background: var(--toggle-track);
+            border-radius: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-toggle-thumb {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #333;
+        }
+
+        .lang-en .lang-toggle-thumb {
+            transform: translateX(24px);
+        }
+
+        .lang-label-left,
+        .lang-label-right {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+            color: #fff;
+        }
+
+        .lang-label-left {
+            margin-right: auto;
+            margin-left: 6px;
+        }
+
+        .lang-label-right {
+            margin-left: auto;
+            margin-right: 6px;
+        }
+
+        .lang-en .lang-label-right {
+            opacity: 1;
+        }
+
+        .lang-en .lang-label-left {
+            opacity: 0.3;
+        }
+
+        body:not(.lang-en) .lang-label-left {
+            opacity: 1;
+        }
+
+        body:not(.lang-en) .lang-label-right {
+            opacity: 0.3;
+        }
+
+        /* ============================================================
+           ПАНЕЛЬ ВВОДА ДАТЫ
+           ============================================================ */
+        .date-input-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2rem 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+
+        .input-heading {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--text-secondary);
+            font-weight: 400;
+            transition: color 0.5s ease;
+        }
+
+        .selectors {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 0.4rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .select-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .select-wrapper label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--text-secondary);
+            font-weight: 500;
+            white-space: nowrap;
+            transition: color 0.5s ease;
+        }
+
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-trigger {
+            appearance: none;
+            -webkit-appearance: none;
+            background: var(--select-bg);
+            border: 1px solid var(--select-border);
+            border-radius: 2.5rem;
+            padding: 0.9rem 2.4rem 0.9rem 1.2rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--select-text);
+            cursor: pointer;
+            text-align: center;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1.1rem;
+            font-family: inherit;
+            transition: border-color 0.25s, background-color 0.25s, color 0.5s ease;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .select-trigger:hover {
+            border-color: #555;
+            background-color: var(--option-hover-bg);
+        }
+
+        .select-overlay {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--overlay-bg);
+            border: 1px solid var(--overlay-border);
+            border-radius: 1rem;
+            margin-top: 0.3rem;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .select-overlay.open {
+            display: block;
+        }
+
+        .select-option {
+            padding: 0.6rem 1rem;
+            font-size: 0.95rem;
+            color: var(--option-text);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            text-align: center;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        }
+
+        .select-option:last-child {
+            border-bottom: none;
+        }
+
+        .select-option:hover {
+            background: var(--option-hover-bg);
+            color: var(--option-hover-text);
+        }
+
+        .select-option.selected {
+            background: var(--option-selected-bg);
+            color: var(--option-hover-text);
+        }
+
+        .reality-btn {
+            background: transparent;
+            border: 1px solid var(--btn-border);
+            color: var(--btn-text);
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            padding: 1rem 3.5rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin-top: 0.8rem;
+            background: rgba(20, 20, 20, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .reality-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .reality-btn:hover {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        .reality-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ============================================================
+           ПАНЕЛЬ СТАТИСТИКИ
+           ============================================================ */
+        .stats-panel {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 2rem;
+        }
+
+        .stats-panel.active {
+            display: flex;
+        }
+
+        /* ---- ГОД ---- */
+        .year-decimal-timer {
+            background: transparent;
+            padding: 2rem 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .big-year-number {
+            font-size: clamp(4rem, 12vw, 7rem);
+            font-weight: 350;
+            letter-spacing: -0.02em;
+            color: var(--year-int);
+            line-height: 1;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 30px rgba(128, 128, 128, 0.15);
+            font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+
+        .year-integer {
+            color: var(--year-int);
+        }
+
+        .year-dot {
+            color: var(--dot-color);
+            font-size: 0.7em;
+            margin: 0 0.02em;
+        }
+
+        .year-decimal-flow {
+            color: var(--dot-color);
+            font-size: 0.7em;
+            letter-spacing: 0.04em;
+        }
+
+        .year-subtitle {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+            font-weight: 400;
+        }
+
+        /* ---- СТАТИСТИКА ---- */
+        .secondary-stats {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            width: 100%;
+            opacity: 0.8;
+            padding: 0.5rem 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 350;
+            letter-spacing: -0.02em;
+            color: var(--stat-number);
+            line-height: 1.1;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+            font-family: 'Inter', 'SF Mono', 'JetBrains Mono', monospace;
+            min-width: 4ch;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+            font-weight: 400;
+        }
+
+        /* ---- СЕТКА ---- */
+        .grid-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-title span {
+            background: var(--grid-title-bg);
+            padding: 0.2rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            color: var(--grid-title-text);
+            border: 1px solid var(--panel-border);
+        }
+
+        .life-grid {
+            display: grid;
+            grid-template-columns: repeat(25, 1fr);
+            gap: 6px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .square {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            max-width: 32px;
+            min-width: 14px;
+            background: var(--square-empty);
+            border: 1px solid var(--square-empty-border);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease, transform 0.15s ease;
+            cursor: default;
+            justify-self: center;
+        }
+
+        .square.filled {
+            background: var(--square-filled);
+            border-color: var(--square-filled-border);
+            box-shadow: 0 0 8px rgba(128, 128, 128, 0.15);
+        }
+
+        .square:hover {
+            border-color: #888;
+            box-shadow: 0 0 12px rgba(128, 128, 128, 0.3);
+            transform: scale(1.15);
+            z-index: 2;
+            position: relative;
+        }
+
+        .optimistic-remaining {
+            font-size: 0.7rem;
+            font-weight: 350;
+            letter-spacing: 0.05em;
+            color: var(--optimistic-text);
+            opacity: 0.8;
+            margin-top: 0.4rem;
+        }
+
+        /* ---- ЦИТАТЫ ---- */
+        .quote-section {
+            width: 100%;
+            max-width: 650px;
+            height: 5.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .quote-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .quote-text {
+            font-size: 0.9rem;
+            font-weight: 350;
+            letter-spacing: 0.04em;
+            color: var(--quote-text);
+            opacity: 0.8;
+            line-height: 1.5;
+            transition: opacity 0.8s ease;
+            font-style: italic;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .quote-author {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            color: var(--quote-author);
+            margin-top: 0.3rem;
+            font-style: normal;
+            transition: opacity 0.8s ease;
+        }
+
+        /* ---- КНОПКИ ДЕЙСТВИЙ ---- */
+        .bottom-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .back-btn-bottom,
+        .share-btn-bottom {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--back-btn-bg);
+            border: 1px solid var(--back-btn-border);
+            color: var(--back-btn-text);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.8rem 2.5rem;
+            border-radius: 2.5rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            backdrop-filter: blur(8px);
+        }
+
+        .back-btn-bottom:hover,
+        .share-btn-bottom:hover {
+            background: var(--back-btn-hover-bg);
+            color: var(--back-btn-hover-text);
+            border-color: var(--back-btn-hover-border);
+        }
+
+        /* ============================================================
+           МОДАЛКА
+           ============================================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            min-width: 260px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .modal-qr {
+            background: var(--qr-bg);
+            padding: 10px;
+            border-radius: 12px;
+            line-height: 0;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-qr canvas,
+        .modal-qr img {
+            display: block;
+            border-radius: 4px;
+        }
+
+        .modal-option {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.8rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s;
+            letter-spacing: 0.05em;
+            width: 100%;
+        }
+
+        .modal-option:hover {
+            background: var(--modal-option-hover);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            text-align: center;
+            letter-spacing: 0.1em;
+            width: 100%;
+        }
+
+        /* ============================================================
+           ТОСТ
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--notification-bg);
+            color: var(--notification-text);
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            z-index: 100;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid var(--sidebar-border);
+            backdrop-filter: blur(12px);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============================================================
+           АДАПТИВ
+           ============================================================ */
+        @media (max-width: 500px) {
+            body {
+                padding: 0.8rem 0.8rem 0 0.8rem;
+                min-height: 100dvh;
+            }
+
+            .select-trigger {
+                padding: 0.7rem 1.5rem 0.7rem 0.6rem;
+                font-size: 1rem;
+            }
+
+            .year-decimal-timer {
+                padding: 2rem 1rem 0;
+            }
+
+            .big-year-number {
+                font-size: 3.5rem;
+            }
+
+            .secondary-stats {
+                gap: 2rem;
+            }
+
+            .life-grid {
+                gap: 2px;
+                max-width: calc(100vw - 1.6rem);
+            }
+
+            .square {
+                min-width: auto;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .quote-text {
+                font-size: 0.8rem;
+            }
+
+            .bottom-actions {
+                gap: 0.6rem;
+            }
+
+            .back-btn-bottom,
+            .share-btn-bottom {
+                padding: 0.7rem 1.8rem;
+                font-size: 0.7rem;
+            }
+
+            .modal {
+                padding: 1.4rem;
+                min-width: 240px;
+            }
+
+            .footer .links {
+                gap: 1.2rem;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Сайдбар -->
-  <button class="sidebar-toggle" id="sidebarToggle" title="Меню"></button>
 
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-label" data-ru="Тема" data-en="Theme">Тема</div>
-    <div class="sidebar-row">
-      <div class="toggle-track" id="themeToggle">
-        <div class="toggle-thumb">
-          <span class="toggle-thumb-icon" id="toggleIcon">🌙</span>
-        </div>
-      </div>
-    </div>
+    <!-- ============================================================
+         САЙДБАР
+         ============================================================ -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="Меню"></button>
 
-    <div class="sidebar-label" data-ru="Язык" data-en="Language">Язык</div>
-    <div class="sidebar-row">
-      <div class="lang-toggle-track" id="langToggle">
-        <span class="lang-label-left">RU</span>
-        <div class="lang-toggle-thumb"></div>
-        <span class="lang-label-right">EN</span>
-      </div>
-    </div>
-
-    <div class="sidebar-dots">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <!-- Основная обёртка -->
-  <div class="app-wrapper">
-
-    <div class="page-content">
-      <div class="container">
-
-        <!-- Панель ввода даты -->
-        <div id="dateInputPanel" class="date-input-panel">
-          <div class="input-heading" data-ru="Укажите свою дату рождения" data-en="Enter your date of birth">Укажите свою дату рождения</div>
-          <div class="selectors">
-            <div class="select-wrapper">
-              <label data-ru="День" data-en="Day">День</label>
-              <div class="custom-select-container" id="dayContainer">
-                <div class="select-trigger" id="dayTrigger">1</div>
-                <div class="select-overlay" id="dayOverlay"></div>
-              </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-label" data-ru="Тема" data-en="Theme">Тема</div>
+        <div class="sidebar-row">
+            <div class="toggle-track" id="themeToggle">
+                <div class="toggle-thumb">
+                    <span id="toggleIcon">🌙</span>
+                </div>
             </div>
-            <div class="select-wrapper">
-              <label data-ru="Месяц" data-en="Month">Месяц</label>
-              <div class="custom-select-container" id="monthContainer">
-                <div class="select-trigger" id="monthTrigger">Январь</div>
-                <div class="select-overlay" id="monthOverlay"></div>
-              </div>
-            </div>
-            <div class="select-wrapper">
-              <label data-ru="Год" data-en="Year">Год</label>
-              <div class="custom-select-container" id="yearContainer">
-                <div class="select-trigger" id="yearTrigger">1995</div>
-                <div class="select-overlay" id="yearOverlay"></div>
-              </div>
-            </div>
-          </div>
-          <button id="realityButton" class="reality-btn" data-ru="Reality check" data-en="Reality check">Reality check</button>
         </div>
 
-        <!-- Панель статистики -->
-        <div id="statsPanel" class="stats-panel">
-          <div id="captureArea">
-            <div class="year-decimal-timer">
-              <div class="big-year-number">
-                <span class="year-integer" id="yearInteger">0</span>
-                <span class="year-dot">.</span>
-                <span class="year-decimal-flow" id="yearDecimalFlow">000000000</span>
-              </div>
-              <div class="year-subtitle" id="yearSubtitle">прожитых лет</div>
+        <div class="sidebar-label" data-ru="Язык" data-en="Language">Язык</div>
+        <div class="sidebar-row">
+            <div class="lang-toggle-track" id="langToggle">
+                <span class="lang-label-left">RU</span>
+                <div class="lang-toggle-thumb"></div>
+                <span class="lang-label-right">EN</span>
             </div>
-
-            <div class="secondary-stats">
-              <div class="stat-item"><div class="stat-number" id="daysLived">0</div><div class="stat-label" data-ru="дней" data-en="days">дней</div></div>
-              <div class="stat-item"><div class="stat-number" id="weeksLived">0</div><div class="stat-label" data-ru="недель" data-en="weeks">недель</div></div>
-              <div class="stat-item"><div class="stat-number" id="monthsLived">0</div><div class="stat-label" data-ru="месяцев" data-en="months">месяцев</div></div>
-            </div>
-
-            <div class="grid-section">
-              <div class="grid-title"><span id="gridSummary">прожито 0 из 100 лет</span></div>
-              <div id="lifeGrid" class="life-grid"></div>
-              <div class="optimistic-remaining" id="optimisticRemaining">в лучшем случае осталось ~80 лет</div>
-            </div>
-
-            <div class="quote-carousel">
-              <div class="quote-inner">
-                <div class="quote-text" id="quoteText"></div>
-                <div class="quote-author" id="quoteAuthor"></div>
-              </div>
-            </div>
-
-            <div class="bottom-actions">
-              <button class="back-btn-bottom" id="backBtnBottom" data-ru="← Назад" data-en="← Back">← Назад</button>
-              <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
-            </div>
-          </div>
         </div>
 
-      </div>
+        <div class="sidebar-dots">
+            <span></span><span></span><span></span>
+        </div>
     </div>
 
-    <!-- Футер с унифицированными ссылками -->
-    <div class="footer">
-      <div class="links">
-        <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
-        <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
-      </div>
+    <!-- ============================================================
+         ОСНОВНАЯ ОБЁРТКА
+         ============================================================ -->
+    <div class="app-wrapper">
+        <div class="page-content">
+            <div class="container">
+
+                <!-- ХЕДЕР -->
+                <header class="header">
+                    <div class="logo">Memento</div>
+                    <p class="subtitle" data-ru="Осознай конечность времени, чтобы жить осмысленно." data-en="Embrace the finiteness of time to live meaningfully.">Осознай конечность времени, чтобы жить осмысленно.</p>
+                </header>
+
+                <!-- ПАНЕЛЬ ВВОДА ДАТЫ -->
+                <div id="dateInputPanel" class="date-input-panel">
+                    <div class="input-heading" data-ru="Укажите свою дату рождения" data-en="Enter your date of birth">Укажите свою дату рождения</div>
+
+                    <div class="selectors">
+                        <div class="select-wrapper">
+                            <label data-ru="День" data-en="Day">День</label>
+                            <div class="custom-select-container" id="dayContainer">
+                                <div class="select-trigger" id="dayTrigger">1</div>
+                                <div class="select-overlay" id="dayOverlay"></div>
+                            </div>
+                        </div>
+
+                        <div class="select-wrapper">
+                            <label data-ru="Месяц" data-en="Month">Месяц</label>
+                            <div class="custom-select-container" id="monthContainer">
+                                <div class="select-trigger" id="monthTrigger">Январь</div>
+                                <div class="select-overlay" id="monthOverlay"></div>
+                            </div>
+                        </div>
+
+                        <div class="select-wrapper">
+                            <label data-ru="Год" data-en="Year">Год</label>
+                            <div class="custom-select-container" id="yearContainer">
+                                <div class="select-trigger" id="yearTrigger">1995</div>
+                                <div class="select-overlay" id="yearOverlay"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="realityButton" class="reality-btn" data-ru="Memento" data-en="Memento">Memento</button>
+                </div>
+
+                <!-- ПАНЕЛЬ СТАТИСТИКИ -->
+                <div id="statsPanel" class="stats-panel">
+                    <div id="captureArea">
+                        <!-- Год -->
+                        <div class="year-decimal-timer">
+                            <div class="big-year-number">
+                                <span class="year-integer" id="yearInteger">0</span>
+                                <span class="year-dot">.</span>
+                                <span class="year-decimal-flow" id="yearDecimalFlow">000000000</span>
+                            </div>
+                            <div class="year-subtitle" id="yearSubtitle">прожитых лет</div>
+                        </div>
+
+                        <!-- Статистика -->
+                        <div class="secondary-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" id="daysLived">0</div>
+                                <div class="stat-label" data-ru="дней" data-en="days">дней</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="weeksLived">0</div>
+                                <div class="stat-label" data-ru="недель" data-en="weeks">недель</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="monthsLived">0</div>
+                                <div class="stat-label" data-ru="месяцев" data-en="months">месяцев</div>
+                            </div>
+                        </div>
+
+                        <!-- Сетка -->
+                        <div class="grid-section">
+                            <div class="grid-title">
+                                <span id="gridSummary">прожито 0 из 100 лет</span>
+                            </div>
+                            <div id="lifeGrid" class="life-grid"></div>
+                            <div class="optimistic-remaining" id="optimisticRemaining">в лучшем случае осталось ~80 лет</div>
+                        </div>
+
+                        <!-- Цитата -->
+                        <div class="quote-section">
+                            <div class="quote-inner">
+                                <div class="quote-text" id="quoteText"></div>
+                                <div class="quote-author" id="quoteAuthor"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="bottom-actions">
+                        <button class="back-btn-bottom" id="backBtnBottom" data-ru="← Назад" data-en="← Back">← Назад</button>
+                        <button class="share-btn-bottom" id="shareBtnBottom" data-ru="↗ Поделиться" data-en="↗ Share">↗ Поделиться</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ФУТЕР -->
+        <div class="footer">
+            <div class="links">
+                <a href="https://github.com/idenbraun" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://t.me/idendie" target="_blank" rel="noopener">t.me/idendie</a>
+                <a href="mailto:idenbraun@yandex.ru">idenbraun@yandex.ru</a>
+            </div>
+        </div>
     </div>
 
-  </div>
-
-  <!-- Модалка и тост -->
-  <div class="modal-overlay" id="shareModal">
-    <div class="modal">
-      <div class="modal-qr" id="modalQrContainer"></div>
-      <button class="modal-option" data-action="copy" data-ru="📋 Копировать ссылку" data-en="📋 Copy link">📋 Копировать ссылку</button>
-      <button class="modal-option" data-action="download" data-ru="💾 Скачать PNG" data-en="💾 Download PNG">💾 Скачать PNG</button>
-      <button class="modal-option" data-action="share" data-ru="📤 Поделиться" data-en="📤 Share">📤 Поделиться</button>
-      <button class="modal-close" data-action="close" data-ru="отмена" data-en="cancel">отмена</button>
+    <!-- ============================================================
+         МОДАЛКА ПОДЕЛИТЬСЯ
+         ============================================================ -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal">
+            <div class="modal-qr" id="modalQrContainer"></div>
+            <button class="modal-option" data-action="copy" data-ru="📋 Копировать ссылку" data-en="📋 Copy link">📋 Копировать ссылку</button>
+            <button class="modal-option" data-action="download" data-ru="💾 Скачать PNG" data-en="💾 Download PNG">💾 Скачать PNG</button>
+            <button class="modal-option" data-action="share" data-ru="📤 Поделиться" data-en="📤 Share">📤 Поделиться</button>
+            <button class="modal-close" data-action="close" data-ru="отмена" data-en="cancel">отмена</button>
+        </div>
     </div>
-  </div>
 
-  <div id="toast" class="toast"></div>
+    <!-- ============================================================
+         ТОСТ
+         ============================================================ -->
+    <div id="toast" class="toast"></div>
 
-  <script>
-    (function() {
-      const TOTAL_SQUARES = 100;
-      const UPPER_LIFESPAN = 80;
-      const STORAGE_KEY = 'reality-check-birthdate';
-      const DECIMAL_PLACES = 9;
+    <script>
+        (function() {
+            // ============================================================
+            // КОНСТАНТЫ
+            // ============================================================
+            const TOTAL_SQUARES = 100;
+            const UPPER_LIFESPAN = 80;
+            const STORAGE_KEY = 'memento-birthdate';
+            const DECIMAL_PLACES = 9;
 
-      const translations = {
-        ru: {
-          yearSubtitle: function(y) {
-            if (y % 10 === 1 && y % 100 !== 11) return 'прожитый год';
-            if (y % 10 >= 2 && y % 10 <= 4 && (y % 100 < 10 || y % 100 >= 20)) return 'прожитых года';
-            return 'прожитых лет';
-          },
-          days: 'дней',
-          weeks: 'недель',
-          months: 'месяцев',
-          gridSummary: function(y) { return 'прожито ' + y + ' из ' + TOTAL_SQUARES + ' лет'; },
-          optimistic: function(r) {
-            if (r % 10 === 1 && r % 100 !== 11) return 'в лучшем случае остался ~' + r + ' год';
-            if (r % 10 >= 2 && r % 10 <= 4 && (r % 100 < 10 || r % 100 >= 20)) return 'в лучшем случае осталось ~' + r +
-              ' года';
-            return 'в лучшем случае осталось ~' + r + ' лет';
-          },
-          inputHeading: 'Укажите свою дату рождения',
-          day: 'День',
-          month: 'Месяц',
-          year: 'Год',
-          realityBtn: 'Reality check',
-          shareBtn: '↗ Поделиться',
-          backBtn: '← Назад',
-          copyLink: '📋 Копировать ссылку',
-          downloadPng: '💾 Скачать PNG',
-          share: '📤 Поделиться',
-          cancel: 'отмена',
-          toastCopied: '✓ Ссылка скопирована',
-          toastDownloaded: '✓ Скриншот скачан',
-          toastNeedCheck: 'Сначала выполните Reality check',
-          futureError: 'Дата рождения не может быть в будущем.'
-        },
-        en: {
-          yearSubtitle: function(y) { return y === 1 ? 'year lived' : 'years lived'; },
-          days: 'days',
-          weeks: 'weeks',
-          months: 'months',
-          gridSummary: function(y) { return 'lived ' + y + ' of ' + TOTAL_SQUARES + ' years'; },
-          optimistic: function(r) { return r === 1 ? 'at best ~' + r + ' year left' : 'at best ~' + r + ' years left'; },
-          inputHeading: 'Enter your date of birth',
-          day: 'Day',
-          month: 'Month',
-          year: 'Year',
-          realityBtn: 'Reality check',
-          shareBtn: '↗ Share',
-          backBtn: '← Back',
-          copyLink: '📋 Copy link',
-          downloadPng: '💾 Download PNG',
-          share: '📤 Share',
-          cancel: 'cancel',
-          toastCopied: '✓ Link copied',
-          toastDownloaded: '✓ Screenshot downloaded',
-          toastNeedCheck: 'Do Reality check first',
-          futureError: 'Date of birth cannot be in the future.'
-        }
-      };
+            // ============================================================
+            // ПЕРЕВОДЫ
+            // ============================================================
+            const translations = {
+                ru: {
+                    yearSubtitle: function(y) {
+                        if (y % 10 === 1 && y % 100 !== 11) return 'прожитый год';
+                        if (y % 10 >= 2 && y % 10 <= 4 && (y % 100 < 10 || y % 100 >= 20)) return 'прожитых года';
+                        return 'прожитых лет';
+                    },
+                    days: 'дней',
+                    weeks: 'недель',
+                    months: 'месяцев',
+                    gridSummary: function(y) {
+                        return 'прожито ' + y + ' из ' + TOTAL_SQUARES + ' лет';
+                    },
+                    optimistic: function(r) {
+                        if (r % 10 === 1 && r % 100 !== 11) return 'в лучшем случае остался ~' + r + ' год';
+                        if (r % 10 >= 2 && r % 10 <= 4 && (r % 100 < 10 || r % 100 >= 20)) return 'в лучшем случае осталось ~' + r + ' года';
+                        return 'в лучшем случае осталось ~' + r + ' лет';
+                    },
+                    inputHeading: 'Укажите свою дату рождения',
+                    day: 'День',
+                    month: 'Месяц',
+                    year: 'Год',
+                    realityBtn: 'Memento',
+                    shareBtn: '↗ Поделиться',
+                    backBtn: '← Назад',
+                    copyLink: '📋 Копировать ссылку',
+                    downloadPng: '💾 Скачать PNG',
+                    share: '📤 Поделиться',
+                    cancel: 'отмена',
+                    toastCopied: '✓ Ссылка скопирована',
+                    toastDownloaded: '✓ Скриншот скачан',
+                    toastNeedCheck: 'Сначала выполните Memento',
+                    futureError: 'Дата рождения не может быть в будущем.'
+                },
+                en: {
+                    yearSubtitle: function(y) {
+                        return y === 1 ? 'year lived' : 'years lived';
+                    },
+                    days: 'days',
+                    weeks: 'weeks',
+                    months: 'months',
+                    gridSummary: function(y) {
+                        return 'lived ' + y + ' of ' + TOTAL_SQUARES + ' years';
+                    },
+                    optimistic: function(r) {
+                        return r === 1 ? 'at best ~' + r + ' year left' : 'at best ~' + r + ' years left';
+                    },
+                    inputHeading: 'Enter your date of birth',
+                    day: 'Day',
+                    month: 'Month',
+                    year: 'Year',
+                    realityBtn: 'Memento',
+                    shareBtn: '↗ Share',
+                    backBtn: '← Back',
+                    copyLink: '📋 Copy link',
+                    downloadPng: '💾 Download PNG',
+                    share: '📤 Share',
+                    cancel: 'cancel',
+                    toastCopied: '✓ Link copied',
+                    toastDownloaded: '✓ Screenshot downloaded',
+                    toastNeedCheck: 'Do Memento first',
+                    futureError: 'Date of birth cannot be in the future.'
+                }
+            };
 
-      const quotes = {
-        ru: [
-          { text: '«Ты живёшь так, будто будешь жить вечно.<br>Ты не думаешь о своей хрупкости.<br>Ты не замечаешь, сколько времени уже прошло.»',
-            author: '— Сенека' },
-          { text: '«Человек — это не что иное, как сумма его поступков.»', author: '— Жан-Поль Сартр' },
-          { text: '«Ты уже умираешь. Прямо сейчас.»', author: '— Тайлер Дёрден, «Бойцовский клуб»' },
-          { text: '«Каждый день — это маленькая жизнь.»', author: '— Марк Аврелий' },
-          { text: '«А ведь где-то уже растёт дерево,<br>из которого сколотят твой гроб.»', author: '— Неизвестный автор' }
-        ],
-        en: [
-          { text: '«You live as if you will live forever.<br>You do not think about your fragility.<br>You do not notice how much time has passed.»',
-            author: '— Seneca' },
-          { text: '«Man is nothing else but the sum of his actions.»', author: '— Jean-Paul Sartre' },
-          { text: '«You are already dying. Right now.»', author: '— Tyler Durden, «Fight Club»' },
-          { text: '«Each day is a little life.»', author: '— Marcus Aurelius' },
-          { text: '«Somewhere a tree is already growing<br>from which your coffin will be made.»',
-            author: '— Unknown author' }
-        ]
-      };
+            // ============================================================
+            // ЦИТАТЫ
+            // ============================================================
+            const quotes = {
+                ru: [
+                    {
+                        text: '«Ты живёшь так, будто будешь жить вечно.<br>Ты не думаешь о своей хрупкости.»',
+                        author: '— Сенека'
+                    },
+                    {
+                        text: '«А ведь где-то уже растёт дерево,<br>из которого сколотят твой гроб.»',
+                        author: '— Неизвестный автор'
+                    },
+                    {
+                        text: '«Человек — это не что иное, как сумма его поступков.»',
+                        author: '— Жан-Поль Сартр'
+                    },
+                    {
+                        text: '«Каждый день — это маленькая жизнь.»',
+                        author: '— Марк Аврелий'
+                    },
+                    {
+                        text: '«Memento mori — помни о смерти. Memento vivere — помни о жизни.»',
+                        author: '— Латинская мудрость'
+                    }
+                ],
+                en: [
+                    {
+                        text: '«You live as if you will live forever.<br>You do not think about your fragility.<br>You do not notice how much time has passed.»',
+                        author: '— Seneca'
+                    },
+                    {
+                        text: '«Somewhere a tree is already growing<br>from which your coffin will be made.»',
+                        author: '— Unknown author'
+                    },
+                    {
+                        text: '«Man is nothing else but the sum of his actions.»',
+                        author: '— Jean-Paul Sartre'
+                    },
+                    {
+                        text: '«Each day is a little life.»',
+                        author: '— Marcus Aurelius'
+                    },
+                    {
+                        text: '«Memento mori — remember you must die. Memento vivere — remember to live.»',
+                        author: '— Latin wisdom'
+                    }
+                ]
+            };
 
-      let currentLang = 'ru';
-      let currentQuoteIndex = 0;
-      let quoteIntervalId = null;
-      let qrCodeInstance = null;
+            // ============================================================
+            // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+            // ============================================================
+            let currentLang = 'ru';
+            let currentQuoteIndex = 0;
+            let quoteIntervalId = null;
+            let birthDate = null;
+            let animationFrameId = null;
+            let currentGridYear = -1;
+            let selectedDay = 1;
+            let selectedMonth = 1;
+            let selectedYear = 1995;
+            let currentOpenOverlay = null;
+            let toastTimer = null;
 
-      function t(key) { var val = translations[currentLang][key]; return typeof val === 'function' ? val : val; }
+            const monthNames = [
+                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+            ];
 
-      function getCurrentQuotes() { return quotes[currentLang]; }
+            // ============================================================
+            // DOM-ЭЛЕМЕНТЫ
+            // ============================================================
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const themeToggle = document.getElementById('themeToggle');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const langToggle = document.getElementById('langToggle');
 
-      function updateAllTexts() {
-        document.querySelectorAll('[data-ru][data-en]').forEach(function(el) { el.textContent = el.getAttribute('data-' +
-            currentLang); });
-        if (birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years);
-          updateGridTexts(details.years); updateStatLabels(); }
-      }
+            const dayTrigger = document.getElementById('dayTrigger');
+            const monthTrigger = document.getElementById('monthTrigger');
+            const yearTrigger = document.getElementById('yearTrigger');
+            const dayOverlay = document.getElementById('dayOverlay');
+            const monthOverlay = document.getElementById('monthOverlay');
+            const yearOverlay = document.getElementById('yearOverlay');
 
-      function updateYearSubtitle(years) { document.getElementById('yearSubtitle').textContent = translations[currentLang]
-          .yearSubtitle(years); }
+            const realityBtn = document.getElementById('realityButton');
+            const dateInputPanel = document.getElementById('dateInputPanel');
+            const statsPanel = document.getElementById('statsPanel');
 
-      function updateGridTexts(years) {
-        var c = Math.min(years, TOTAL_SQUARES);
-        document.getElementById('gridSummary').textContent = translations[currentLang].gridSummary(c);
-        document.getElementById('optimisticRemaining').textContent = translations[currentLang].optimistic(Math.max(0,
-          UPPER_LIFESPAN - c));
-      }
+            const yearIntegerEl = document.getElementById('yearInteger');
+            const yearDecimalFlowEl = document.getElementById('yearDecimalFlow');
+            const daysLivedEl = document.getElementById('daysLived');
+            const weeksLivedEl = document.getElementById('weeksLived');
+            const monthsLivedEl = document.getElementById('monthsLived');
+            const lifeGridEl = document.getElementById('lifeGrid');
+            const gridSummaryEl = document.getElementById('gridSummary');
+            const optimisticRemainingEl = document.getElementById('optimisticRemaining');
+            const quoteTextEl = document.getElementById('quoteText');
+            const quoteAuthorEl = document.getElementById('quoteAuthor');
 
-      function updateStatLabels() { document.querySelectorAll('.stat-label[data-ru][data-en]').forEach(function(el) { el
-            .textContent = el.getAttribute('data-' + currentLang); }); }
+            const backBtnBottom = document.getElementById('backBtnBottom');
+            const shareBtnBottom = document.getElementById('shareBtnBottom');
+            const shareModal = document.getElementById('shareModal');
+            const modalQrContainer = document.getElementById('modalQrContainer');
+            const toast = document.getElementById('toast');
 
-      const sidebar = document.getElementById('sidebar');
-      const sidebarToggle = document.getElementById('sidebarToggle');
-      const themeToggle = document.getElementById('themeToggle');
-      const toggleIcon = document.getElementById('toggleIcon');
-      const langToggle = document.getElementById('langToggle');
-      const shareBtnBottom = document.getElementById('shareBtnBottom');
-      const backBtnBottom = document.getElementById('backBtnBottom');
-      const shareModal = document.getElementById('shareModal');
-      const modalQrContainer = document.getElementById('modalQrContainer');
-      const toast = document.getElementById('toast');
-      const dayTrigger = document.getElementById('dayTrigger');
-      const monthTrigger = document.getElementById('monthTrigger');
-      const yearTrigger = document.getElementById('yearTrigger');
-      const dayOverlay = document.getElementById('dayOverlay');
-      const monthOverlay = document.getElementById('monthOverlay');
-      const yearOverlay = document.getElementById('yearOverlay');
-      const realityBtn = document.getElementById('realityButton');
-      const dateInputPanel = document.getElementById('dateInputPanel');
-      const statsPanel = document.getElementById('statsPanel');
-      const yearIntegerEl = document.getElementById('yearInteger');
-      const yearDecimalFlowEl = document.getElementById('yearDecimalFlow');
-      const daysLivedEl = document.getElementById('daysLived');
-      const weeksLivedEl = document.getElementById('weeksLived');
-      const monthsLivedEl = document.getElementById('monthsLived');
-      const lifeGridEl = document.getElementById('lifeGrid');
-      const gridSummaryEl = document.getElementById('gridSummary');
-      const optimisticRemainingEl = document.getElementById('optimisticRemaining');
-      const quoteTextEl = document.getElementById('quoteText');
-      const quoteAuthorEl = document.getElementById('quoteAuthor');
+            // ============================================================
+            // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+            // ============================================================
+            function t(key) {
+                var val = translations[currentLang][key];
+                return typeof val === 'function' ? val : val;
+            }
 
-      let birthDate = null;
-      let animationFrameId = null;
-      let currentGridYear = -1;
-      let frameCount = 0;
-      let selectedDay = 1,
-        selectedMonth = 1,
-        selectedYear = 1995;
-      let currentOpenOverlay = null;
-      const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь',
-        'Ноябрь', 'Декабрь'
-      ];
+            function getCurrentQuotes() {
+                return quotes[currentLang];
+            }
 
-      let toastTimer = null;
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
 
-      function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); if (toastTimer) clearTimeout(
-          toastTimer); toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
+            function saveBirthDate(d) {
+                if (d) {
+                    localStorage.setItem(STORAGE_KEY, d.toISOString());
+                } else {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
 
-      function saveBirthDate(d) {
-        if (d) {
-          localStorage.setItem(STORAGE_KEY, d.toISOString());
-        } else {
-          localStorage.removeItem(STORAGE_KEY);
-        }
-      }
+            function loadBirthDate() {
+                var saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    var parsed = new Date(saved);
+                    if (!isNaN(parsed.getTime()) && parsed <= new Date()) {
+                        return parsed;
+                    }
+                }
+                return null;
+            }
 
-      function loadBirthDate() {
-        var saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          var parsed = new Date(saved);
-          if (!isNaN(parsed.getTime()) && parsed <= new Date()) {
-            return parsed;
-          }
-        }
-        return null;
-      }
+            function getDaysInMonth(m, y) {
+                return new Date(y, m, 0).getDate();
+            }
 
-      function restoreSelectsFromDate(d) {
-        selectedDay = d.getDate();
-        selectedMonth = d.getMonth() + 1;
-        selectedYear = d.getFullYear();
-        dayTrigger.textContent = selectedDay;
-        monthTrigger.textContent = monthNames[selectedMonth - 1];
-        yearTrigger.textContent = selectedYear;
-        renderDayOptions();
-        renderMonthOptions();
-        renderYearOptions();
-      }
+            function computeExactDecimalYears(b) {
+                return (new Date() - b) / (365.25 * 24 * 60 * 60 * 1000);
+            }
 
-      function generateModalQR() {
-        modalQrContainer.innerHTML = '';
-        qrCodeInstance = new QRCode(modalQrContainer, {
-          text: window.location.href,
-          width: 120,
-          height: 120,
-          colorDark: '#000000',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      }
+            function computeLivedDetails(b) {
+                var n = new Date();
+                var d = n - b;
+                if (d < 0) return { days: 0, weeks: 0, months: 0, years: 0 };
 
-      sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); sidebarToggle.classList.toggle(
-          'active'); });
-      document.addEventListener('click', function(e) { if (!sidebar.contains(e.target) && e.target !== sidebarToggle) { sidebar
-            .classList.remove('open');
-          sidebarToggle.classList.remove('active'); } });
+                var td = Math.floor(d / (1000 * 60 * 60 * 24));
+                var tw = Math.floor(td / 7);
+                var y = n.getFullYear() - b.getFullYear();
+                var m = n.getMonth() - b.getMonth();
+                var dd = n.getDate() - b.getDate();
 
-      // ----- ТЕМА: ФИКС ОБНОВЛЕНИЯ ФОНА -----
-      function applyTheme(theme) {
-        var isLight = theme === 'light';
-        document.body.classList.toggle('light-theme', isLight);
-        toggleIcon.textContent = isLight ? '☀️' : '🌙';
+                if (dd < 0) {
+                    m--;
+                    dd += new Date(n.getFullYear(), n.getMonth(), 0).getDate();
+                }
+                if (m < 0) {
+                    y--;
+                    m += 12;
+                }
 
-        // Принудительно задаем фон на html в зависимости от темы
-        if (isLight) {
-          document.documentElement.style.background = 'radial-gradient(circle at 50% 40%, #e8e8e8 0%, #f5f5f5 100%)';
-        } else {
-          document.documentElement.style.background = 'radial-gradient(circle at 50% 40%, #121212 0%, #050505 100%)';
-        }
+                return { days: td, weeks: tw, months: y * 12 + m, years: y };
+            }
 
-        localStorage.setItem('reality-check-theme', theme);
-      }
+            // ============================================================
+            // ОБНОВЛЕНИЕ ТЕКСТОВ
+            // ============================================================
+            function updateYearSubtitle(years) {
+                document.getElementById('yearSubtitle').textContent = translations[currentLang].yearSubtitle(years);
+            }
 
-      var savedTheme = localStorage.getItem('reality-check-theme') || 'dark';
-      applyTheme(savedTheme);
+            function updateGridTexts(years) {
+                var c = Math.min(years, TOTAL_SQUARES);
+                document.getElementById('gridSummary').textContent = translations[currentLang].gridSummary(c);
+                document.getElementById('optimisticRemaining').textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN - c));
+            }
 
-      themeToggle.addEventListener('click', function() {
-        var isLight = document.body.classList.contains('light-theme');
-        applyTheme(isLight ? 'dark' : 'light');
-      });
+            function updateStatLabels() {
+                document.querySelectorAll('.stat-label[data-ru][data-en]').forEach(function(el) {
+                    el.textContent = el.getAttribute('data-' + currentLang);
+                });
+            }
 
-      // ----- ЯЗЫК -----
-      var savedLang = localStorage.getItem('reality-check-lang') || 'ru';
-      currentLang = savedLang;
-      if (currentLang === 'en') document.body.classList.add('lang-en');
-      updateAllTexts();
-      langToggle.addEventListener('click', function() {
-        currentLang = currentLang === 'ru' ? 'en' : 'ru';
-        if (currentLang === 'en') document.body.classList.add('lang-en');
-        else document.body.classList.remove('lang-en');
-        localStorage.setItem('reality-check-lang', currentLang);
-        updateAllTexts();
-        if (birthDate) { var details = computeLivedDetails(birthDate); updateYearSubtitle(details.years);
-          updateGridTexts(details.years); updateStatLabels(); }
-        showQuoteRaw(getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length]);
-      });
+            function updateAllTexts() {
+                document.querySelectorAll('[data-ru][data-en]').forEach(function(el) {
+                    el.textContent = el.getAttribute('data-' + currentLang);
+                });
+                if (birthDate) {
+                    var details = computeLivedDetails(birthDate);
+                    updateYearSubtitle(details.years);
+                    updateGridTexts(details.years);
+                    updateStatLabels();
+                }
+            }
 
-      shareBtnBottom.addEventListener('click', function() {
-        if (!birthDate) { showToast(t('toastNeedCheck')); return; }
-        generateModalQR();
-        shareModal.classList.add('open');
-      });
+            // ============================================================
+            // СЕЛЕКТЫ ДАТЫ
+            // ============================================================
+            function openOverlay(o) {
+                if (currentOpenOverlay && currentOpenOverlay !== o) {
+                    closeOverlay(currentOpenOverlay);
+                }
+                o.classList.add('open');
+                currentOpenOverlay = o;
+            }
 
-      backBtnBottom.addEventListener('click', function() {
-        stopRealtimeUpdates();
-        stopQuoteCarousel();
-        statsPanel.classList.remove('active');
-        dateInputPanel.style.display = 'flex';
-        if (birthDate) {
-          restoreSelectsFromDate(birthDate);
-        }
-      });
+            function closeOverlay(o) {
+                o.classList.remove('open');
+                if (currentOpenOverlay === o) {
+                    currentOpenOverlay = null;
+                }
+            }
 
-      shareModal.addEventListener('click', async function(e) {
-        var action = e.target.dataset.action;
-        if (!action) return;
-        shareModal.classList.remove('open');
-        if (action === 'close') return;
-        if (action === 'copy') { try { await navigator.clipboard.writeText(window.location.href);
-            showToast(t('toastCopied')); } catch (err) { showToast(window.location.href); } } else if (action ===
-          'download') { await generateScreenshot(); } else if (action === 'share') {
-          try {
-            var blob = await generateScreenshotBlob();
-            if (!blob) return;
-            var file = new File([blob], 'reality-check.png', { type: 'image/png' });
-            if (navigator.share) await navigator.share({ title: 'Reality Check', files: [file] });
-            else { var url = URL.createObjectURL(blob); var a = document.createElement('a');
-              a.href = url;
-              a.download = 'reality-check.png';
-              a.click();
-              URL.revokeObjectURL(url); }
-          } catch (err) {}
-        }
-      });
+            function renderDayOptions() {
+                dayOverlay.innerHTML = '';
+                var dim = getDaysInMonth(selectedMonth, selectedYear);
+                if (selectedDay > dim) selectedDay = dim;
 
-      async function generateScreenshotBlob() {
-        var details = computeLivedDetails(birthDate);
-        var decimalYears = computeExactDecimalYears(birthDate);
-        var quote = getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length];
-        var isLight = document.body.classList.contains('light-theme');
-        var bg = isLight ? '#f5f5f5' : '#0a0a0a',
-          text = isLight ? '#1a1a1a' : '#f5f5f5',
-          muted = isLight ? '#777' : '#888';
-        var sEmpty = isLight ? '#e0e0e0' : '#181818',
-          sFilled = isLight ? '#1a1a1a' : '#d4d4d4';
-        var wrapper = document.createElement('div');
-        wrapper.style.cssText =
-          'position:fixed;left:-9999px;top:0;width:1080px;background:' + bg + ';padding:200px 120px 180px;font-family:Inter,sans-serif;display:flex;flex-direction:column;align-items:center;color:' +
-          text + ';';
-        wrapper.innerHTML = '<div style="font-size:2.2rem;font-weight:350;font-family:monospace;text-align:center;">' +
-          Math.floor(decimalYears) + '<span style="font-size:0.7em;color:' + muted + ';">.' + decimalYears.toFixed(
-            DECIMAL_PLACES).split('.')[1] + '</span></div>' +
-          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.4em;color:' + muted +
-          ';margin-bottom:2rem;">' + translations[currentLang].yearSubtitle(details.years) + '</div>' +
-          '<div style="display:flex;gap:2rem;margin-bottom:2rem;color:' + muted + ';font-size:0.7rem;"><div>' + details
-          .days.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t('days') + '</span></div><div>' +
-          details.weeks.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t('weeks') +
-          '</span></div><div>' + details.months.toLocaleString() + ' <span style="font-size:0.5rem;opacity:0.6;">' + t(
-            'months') + '</span></div></div>' +
-          '<div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.3em;color:' + muted +
-          ';margin-bottom:0.3rem;">' + translations[currentLang].gridSummary(details.years) + '</div>' +
-          '<div style="display:grid;grid-template-columns:repeat(25,14px);gap:5px;margin-bottom:1rem;">' + Array.from({
-            length: 100
-          }, function(_, i) { return '<div style="width:14px;height:14px;background:' + (i < details.years ?
-              sFilled : sEmpty) + ';border:1px solid ' + (i < details.years ? '#6a6a6a' : '#2a2a2a') +
-            ';"></div>'; }).join('') + '</div>' +
-          '<div style="font-size:0.5rem;color:' + muted + ';opacity:0.6;margin-bottom:1.5rem;">' + translations[
-            currentLang].optimistic(Math.max(0, 80 - details.years)) + '</div>' +
-          '<div style="font-size:0.6rem;font-style:italic;color:' + muted +
-          ';text-align:center;max-width:380px;line-height:1.4;margin-bottom:0.2rem;">' + quote.text.replace(/<br>/g,
-            ' ') + '</div>' +
-          '<div style="font-size:0.5rem;color:' + muted + ';opacity:0.7;">' + quote.author + '</div>' +
-          '<div style="font-size:0.4rem;color:' + muted + ';opacity:0.4;margin-top:2rem;">reality-check</div>';
-        document.body.appendChild(wrapper);
-        try { var canvas = await html2canvas(wrapper, { backgroundColor: bg, scale: 2 }); return await new Promise(
-            function(r) { canvas.toBlob(r, 'image/png'); }); } finally { document.body.removeChild(wrapper); }
-      }
+                for (var d = 1; d <= dim; d++) {
+                    var option = document.createElement('div');
+                    option.className = 'select-option' + (d === selectedDay ? ' selected' : '');
+                    option.textContent = d;
+                    option.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        selectedDay = parseInt(this.textContent, 10);
+                        dayTrigger.textContent = this.textContent;
+                        closeOverlay(dayOverlay);
+                    });
+                    dayOverlay.appendChild(option);
+                }
+                dayTrigger.textContent = selectedDay;
+            }
 
-      async function generateScreenshot() { var blob = await generateScreenshotBlob(); if (!blob) return; var url =
-          URL.createObjectURL(blob); var a = document.createElement('a');
-        a.href = url;
-        a.download = 'reality-check.png';
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast(t('toastDownloaded')); }
+            function renderMonthOptions() {
+                monthOverlay.innerHTML = '';
+                monthNames.forEach(function(name, i) {
+                    var monthNum = i + 1;
+                    var option = document.createElement('div');
+                    option.className = 'select-option' + (monthNum === selectedMonth ? ' selected' : '');
+                    option.textContent = name;
+                    option.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        selectedMonth = monthNum;
+                        monthTrigger.textContent = name;
+                        closeOverlay(monthOverlay);
+                        renderDayOptions();
+                    });
+                    monthOverlay.appendChild(option);
+                });
+                monthTrigger.textContent = monthNames[selectedMonth - 1];
+            }
 
-      function getDaysInMonth(m, y) { return new Date(y, m, 0).getDate(); }
+            function renderYearOptions() {
+                yearOverlay.innerHTML = '';
+                var currentYear = new Date().getFullYear();
 
-      function renderDayOptions() {
-        dayOverlay.innerHTML = '';
-        var dim = getDaysInMonth(selectedMonth, selectedYear);
-        if (selectedDay > dim) selectedDay = dim;
-        for (var d = 1; d <= dim; d++) { var o = document.createElement('div');
-          o.className = 'select-option' + (d === selectedDay ? ' selected' : '');
-          o.textContent = d;
-          o.addEventListener('click', function(e) { e.stopPropagation();
-            selectedDay = parseInt(this.textContent, 10);
-            dayTrigger.textContent = this.textContent;
-            closeOverlay(dayOverlay); });
-          dayOverlay.appendChild(o); }
-        dayTrigger.textContent = selectedDay;
-      }
+                for (var y = currentYear - 1; y >= currentYear - 100; y--) {
+                    var option = document.createElement('div');
+                    option.className = 'select-option' + (y === selectedYear ? ' selected' : '');
+                    option.textContent = y;
+                    option.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        selectedYear = parseInt(this.textContent, 10);
+                        yearTrigger.textContent = this.textContent;
+                        closeOverlay(yearOverlay);
+                        renderDayOptions();
+                    });
+                    yearOverlay.appendChild(option);
+                }
+                yearTrigger.textContent = selectedYear;
+            }
 
-      function renderMonthOptions() {
-        monthOverlay.innerHTML = '';
-        monthNames.forEach(function(n, i) { var mn = i + 1; var o = document.createElement('div');
-          o.className = 'select-option' + (mn === selectedMonth ? ' selected' : '');
-          o.textContent = n;
-          o.addEventListener('click', function(e) { e.stopPropagation();
-            selectedMonth = mn;
-            monthTrigger.textContent = n;
-            closeOverlay(monthOverlay);
-            renderDayOptions(); });
-          monthOverlay.appendChild(o); });
-        monthTrigger.textContent = monthNames[selectedMonth - 1];
-      }
+            function restoreSelectsFromDate(d) {
+                selectedDay = d.getDate();
+                selectedMonth = d.getMonth() + 1;
+                selectedYear = d.getFullYear();
+                dayTrigger.textContent = selectedDay;
+                monthTrigger.textContent = monthNames[selectedMonth - 1];
+                yearTrigger.textContent = selectedYear;
+                renderDayOptions();
+                renderMonthOptions();
+                renderYearOptions();
+            }
 
-      function renderYearOptions() {
-        yearOverlay.innerHTML = '';
-        var cy = new Date().getFullYear();
-        for (var y = cy - 1; y >= cy - 100; y--) { var o = document.createElement('div');
-          o.className = 'select-option' + (y === selectedYear ? ' selected' : '');
-          o.textContent = y;
-          o.addEventListener('click', function(e) { e.stopPropagation();
-            selectedYear = parseInt(this.textContent, 10);
-            yearTrigger.textContent = this.textContent;
-            closeOverlay(yearOverlay);
-            renderDayOptions(); });
-          yearOverlay.appendChild(o); }
-        yearTrigger.textContent = selectedYear;
-      }
+            // Обработчики селектов
+            dayTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (dayOverlay.classList.contains('open')) {
+                    closeOverlay(dayOverlay);
+                } else {
+                    renderDayOptions();
+                    openOverlay(dayOverlay);
+                }
+            });
 
-      function openOverlay(o) { if (currentOpenOverlay && currentOpenOverlay !== o) closeOverlay(currentOpenOverlay);
-        o.classList.add('open');
-        currentOpenOverlay = o; }
+            monthTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (monthOverlay.classList.contains('open')) {
+                    closeOverlay(monthOverlay);
+                } else {
+                    renderMonthOptions();
+                    openOverlay(monthOverlay);
+                }
+            });
 
-      function closeOverlay(o) { o.classList.remove('open'); if (currentOpenOverlay === o) currentOpenOverlay = null; }
+            yearTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (yearOverlay.classList.contains('open')) {
+                    closeOverlay(yearOverlay);
+                } else {
+                    renderYearOptions();
+                    openOverlay(yearOverlay);
+                }
+            });
 
-      dayTrigger.addEventListener('click', function(e) { e.stopPropagation();
-        dayOverlay.classList.contains('open') ? closeOverlay(dayOverlay) : (renderDayOptions(), openOverlay(
-        dayOverlay)); });
-      monthTrigger.addEventListener('click', function(e) { e.stopPropagation();
-        monthOverlay.classList.contains('open') ? closeOverlay(monthOverlay) : (renderMonthOptions(), openOverlay(
-          monthOverlay)); });
-      yearTrigger.addEventListener('click', function(e) { e.stopPropagation();
-        yearOverlay.classList.contains('open') ? closeOverlay(yearOverlay) : (renderYearOptions(), openOverlay(
-          yearOverlay)); });
-      document.addEventListener('click', function() { [dayOverlay, monthOverlay, yearOverlay].forEach(function(o) {
-          closeOverlay(o); }); });
+            document.addEventListener('click', function() {
+                [dayOverlay, monthOverlay, yearOverlay].forEach(function(o) {
+                    closeOverlay(o);
+                });
+            });
 
-      function showQuoteRaw(quote) { quoteTextEl.style.opacity = '0';
-        quoteAuthorEl.style.opacity = '0';
-        setTimeout(function() { quoteTextEl.innerHTML = quote.text;
-          quoteAuthorEl.textContent = quote.author;
-          quoteTextEl.style.opacity = '0.7';
-          quoteAuthorEl.style.opacity = '1'; }, 400); }
+            // ============================================================
+            // САЙДБАР И ТЕМА
+            // ============================================================
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                sidebarToggle.classList.toggle('active');
+            });
 
-      function showQuote(index) { showQuoteRaw(getCurrentQuotes()[index % getCurrentQuotes().length]); }
+            document.addEventListener('click', function(e) {
+                if (!sidebar.contains(e.target) && e.target !== sidebarToggle) {
+                    sidebar.classList.remove('open');
+                    sidebarToggle.classList.remove('active');
+                }
+            });
 
-      function startQuoteCarousel() { if (quoteIntervalId) clearInterval(quoteIntervalId);
-        currentQuoteIndex = 0;
-        showQuote(0);
-        quoteIntervalId = setInterval(function() { currentQuoteIndex = (currentQuoteIndex + 1) % getCurrentQuotes()
-            .length;
-          showQuote(currentQuoteIndex); }, 6000); }
+            function applyTheme(theme) {
+                var isLight = theme === 'light';
+                document.body.classList.toggle('light-theme', isLight);
+                toggleIcon.textContent = isLight ? '☀️' : '🌙';
+                localStorage.setItem('memento-theme', theme);
+            }
 
-      function stopQuoteCarousel() { if (quoteIntervalId) { clearInterval(quoteIntervalId);
-          quoteIntervalId = null; } }
+            var savedTheme = localStorage.getItem('memento-theme') || 'dark';
+            applyTheme(savedTheme);
 
-      function getBirthDateFromSelects() { return new Date(selectedYear, selectedMonth - 1, selectedDay); }
+            themeToggle.addEventListener('click', function() {
+                var isLight = document.body.classList.contains('light-theme');
+                applyTheme(isLight ? 'dark' : 'light');
+            });
 
-      function computeExactDecimalYears(b) { return (new Date() - b) / (365.25 * 24 * 60 * 60 * 1000); }
+            // ============================================================
+            // ЯЗЫК
+            // ============================================================
+            var savedLang = localStorage.getItem('memento-lang') || 'ru';
+            currentLang = savedLang;
+            if (currentLang === 'en') document.body.classList.add('lang-en');
+            updateAllTexts();
 
-      function computeLivedDetails(b) {
-        var n = new Date(),
-          d = n - b;
-        if (d < 0) return { days: 0, weeks: 0, months: 0, years: 0 };
-        var td = Math.floor(d / (1000 * 60 * 60 * 24)),
-          tw = Math.floor(td / 7);
-        var y = n.getFullYear() - b.getFullYear(),
-          m = n.getMonth() - b.getMonth(),
-          dd = n.getDate() - b.getDate();
-        if (dd < 0) { m--;
-          dd += new Date(n.getFullYear(), n.getMonth(), 0).getDate(); }
-        if (m < 0) { y--;
-          m += 12; }
-        return { days: td, weeks: tw, months: y * 12 + m, years: y };
-      }
+            langToggle.addEventListener('click', function() {
+                currentLang = currentLang === 'ru' ? 'en' : 'ru';
+                if (currentLang === 'en') {
+                    document.body.classList.add('lang-en');
+                } else {
+                    document.body.classList.remove('lang-en');
+                }
+                localStorage.setItem('memento-lang', currentLang);
+                updateAllTexts();
+                if (birthDate) {
+                    var details = computeLivedDetails(birthDate);
+                    updateYearSubtitle(details.years);
+                    updateGridTexts(details.years);
+                    updateStatLabels();
+                }
+                showQuoteRaw(getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length]);
+            });
 
-      function renderGrid(lived) {
-        var c = Math.min(lived, TOTAL_SQUARES);
-        if (c === currentGridYear) return;
-        currentGridYear = c;
-        lifeGridEl.innerHTML = '';
-        for (var i = 0; i < TOTAL_SQUARES; i++) { var s = document.createElement('div');
-          s.className = 'square' + (i < c ? ' filled' : '');
-          lifeGridEl.appendChild(s); }
-        gridSummaryEl.textContent = translations[currentLang].gridSummary(c);
-        optimisticRemainingEl.textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN - c));
-      }
+            // ============================================================
+            // СЕТКА И СЧЁТЧИК
+            // ============================================================
+            function renderGrid(lived) {
+                var count = Math.min(lived, TOTAL_SQUARES);
+                if (count === currentGridYear) return;
+                currentGridYear = count;
 
-      function updateLiveCounter() {
-        if (!birthDate) return;
-        frameCount++;
-        var dy = computeExactDecimalYears(birthDate),
-          parts = dy.toFixed(DECIMAL_PLACES).split('.');
-        yearIntegerEl.textContent = parts[0];
-        yearDecimalFlowEl.textContent = parts[1];
-        var det = computeLivedDetails(birthDate);
-        daysLivedEl.textContent = det.days.toLocaleString();
-        weeksLivedEl.textContent = det.weeks.toLocaleString();
-        monthsLivedEl.textContent = det.months.toLocaleString();
-        renderGrid(det.years);
-        updateYearSubtitle(det.years);
-      }
+                lifeGridEl.innerHTML = '';
+                for (var i = 0; i < TOTAL_SQUARES; i++) {
+                    var square = document.createElement('div');
+                    square.className = 'square' + (i < count ? ' filled' : '');
+                    lifeGridEl.appendChild(square);
+                }
+                gridSummaryEl.textContent = translations[currentLang].gridSummary(count);
+                optimisticRemainingEl.textContent = translations[currentLang].optimistic(Math.max(0, UPPER_LIFESPAN - count));
+            }
 
-      function startRealtimeUpdates() { if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            function updateLiveCounter() {
+                if (!birthDate) return;
 
-        function tick() { updateLiveCounter();
-          animationFrameId = requestAnimationFrame(tick); }
-        tick(); }
+                var decimalYears = computeExactDecimalYears(birthDate);
+                var parts = decimalYears.toFixed(DECIMAL_PLACES).split('.');
+                yearIntegerEl.textContent = parts[0];
+                yearDecimalFlowEl.textContent = parts[1];
 
-      function stopRealtimeUpdates() { if (animationFrameId) { cancelAnimationFrame(animationFrameId);
-          animationFrameId = null; } }
+                var details = computeLivedDetails(birthDate);
+                daysLivedEl.textContent = details.days.toLocaleString();
+                weeksLivedEl.textContent = details.weeks.toLocaleString();
+                monthsLivedEl.textContent = details.months.toLocaleString();
+                renderGrid(details.years);
+                updateYearSubtitle(details.years);
+            }
 
-      function showStatsPanel() {
-        dateInputPanel.style.display = 'none';
-        statsPanel.classList.add('active');
-        currentGridYear = -1;
-        if (birthDate) {
-          updateLiveCounter();
-          startRealtimeUpdates();
-        }
-        startQuoteCarousel();
-      }
+            function startRealtimeUpdates() {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-      function showInputPanel() {
-        stopRealtimeUpdates();
-        stopQuoteCarousel();
-        statsPanel.classList.remove('active');
-        dateInputPanel.style.display = 'flex';
-      }
+                function tick() {
+                    updateLiveCounter();
+                    animationFrameId = requestAnimationFrame(tick);
+                }
+                tick();
+            }
 
-      realityBtn.addEventListener('click', function() {
-        var nd = getBirthDateFromSelects();
-        if (nd > new Date()) { alert(t('futureError')); return; }
-        stopRealtimeUpdates();
-        birthDate = nd;
-        saveBirthDate(birthDate);
-        showStatsPanel();
-      });
+            function stopRealtimeUpdates() {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+            }
 
-      window.addEventListener('beforeunload', function() { stopRealtimeUpdates();
-        stopQuoteCarousel(); });
+            // ============================================================
+            // ЦИТАТЫ
+            // ============================================================
+            function showQuoteRaw(quote) {
+                quoteTextEl.style.opacity = '0';
+                quoteAuthorEl.style.opacity = '0';
 
-      renderDayOptions();
-      renderMonthOptions();
-      renderYearOptions();
+                setTimeout(function() {
+                    quoteTextEl.innerHTML = quote.text;
+                    quoteAuthorEl.textContent = quote.author;
+                    quoteTextEl.style.opacity = '0.8';
+                    quoteAuthorEl.style.opacity = '1';
+                }, 400);
+            }
 
-      var savedDate = loadBirthDate();
-      if (savedDate) {
-        birthDate = savedDate;
-        restoreSelectsFromDate(birthDate);
-        showStatsPanel();
-      } else {
-        showInputPanel();
-      }
-    })();
-  </script>
+            function showQuote(index) {
+                var quotesList = getCurrentQuotes();
+                showQuoteRaw(quotesList[index % quotesList.length]);
+            }
+
+            function startQuoteCarousel() {
+                if (quoteIntervalId) clearInterval(quoteIntervalId);
+                currentQuoteIndex = 0;
+                showQuote(0);
+                quoteIntervalId = setInterval(function() {
+                    currentQuoteIndex = (currentQuoteIndex + 1) % getCurrentQuotes().length;
+                    showQuote(currentQuoteIndex);
+                }, 6000);
+            }
+
+            function stopQuoteCarousel() {
+                if (quoteIntervalId) {
+                    clearInterval(quoteIntervalId);
+                    quoteIntervalId = null;
+                }
+            }
+
+            // ============================================================
+            // ПАНЕЛИ
+            // ============================================================
+            function showStatsPanel() {
+                dateInputPanel.style.display = 'none';
+                statsPanel.classList.add('active');
+                currentGridYear = -1;
+                if (birthDate) {
+                    updateLiveCounter();
+                    startRealtimeUpdates();
+                }
+                startQuoteCarousel();
+            }
+
+            function showInputPanel() {
+                stopRealtimeUpdates();
+                stopQuoteCarousel();
+                statsPanel.classList.remove('active');
+                dateInputPanel.style.display = 'flex';
+            }
+
+            realityBtn.addEventListener('click', function() {
+                var newDate = new Date(selectedYear, selectedMonth - 1, selectedDay);
+                if (newDate > new Date()) {
+                    alert(t('futureError'));
+                    return;
+                }
+                stopRealtimeUpdates();
+                birthDate = newDate;
+                saveBirthDate(birthDate);
+                showStatsPanel();
+            });
+
+            backBtnBottom.addEventListener('click', function() {
+                stopRealtimeUpdates();
+                stopQuoteCarousel();
+                statsPanel.classList.remove('active');
+                dateInputPanel.style.display = 'flex';
+                if (birthDate) {
+                    restoreSelectsFromDate(birthDate);
+                }
+            });
+
+            // ============================================================
+            // ПОДЕЛИТЬСЯ — 2K PNG ДЛЯ РАБОЧЕГО СТОЛА
+            // ============================================================
+            function generateModalQR() {
+                modalQrContainer.innerHTML = '';
+                new QRCode(modalQrContainer, {
+                    text: window.location.href,
+                    width: 120,
+                    height: 120,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+
+            async function generateDesktopScreenshotBlob() {
+                var details = computeLivedDetails(birthDate);
+                var decimalYears = computeExactDecimalYears(birthDate);
+                var quote = getCurrentQuotes()[currentQuoteIndex % getCurrentQuotes().length];
+                var isLight = document.body.classList.contains('light-theme');
+
+                // Цвета для скриншота
+                var bg = isLight ? '#f5f5f5' : '#0a0a0a';
+                var muted = isLight ? '#666' : '#7a7a7a';
+                var sEmpty = isLight ? '#e0e0e0' : '#181818';
+                var sFilled = isLight ? '#1a1a1a' : '#d4d4d4';
+                var sBorder = isLight ? '#d0d0d0' : '#2a2a2a';
+                var sFilledBorder = isLight ? '#333' : '#6a6a6a';
+                var statColor = isLight ? '#666' : '#aaaaaa';
+                var dotColor = isLight ? '#888' : '#b0b0b0';
+                var yearColor = isLight ? '#1a1a1a' : '#f5f5f5';
+                var quoteColor = isLight ? '#666' : '#6a6a6a';
+                var quoteAuthorColor = isLight ? '#888' : '#555';
+                var logoColor = isLight ? '#888' : '#a0a0a0';
+
+                // Создаём временный элемент
+                var wrapper = document.createElement('div');
+                wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;';
+
+                // Собираем HTML для скриншота 2560x1440
+                var html = '';
+
+                // Открывающий контейнер
+                html += '<div style="width:2560px;height:1440px;background:' + bg + ';display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Inter,sans-serif;color:#e0e0e0;padding:250px 500px;">';
+
+                // Логотип
+                html += '<div style="font-size:22px;letter-spacing:8px;color:' + logoColor + ';text-transform:uppercase;margin-bottom:60px;">Memento</div>';
+
+                // Год
+                html += '<div style="font-size:140px;font-weight:350;font-family:monospace;color:' + yearColor + ';line-height:1;text-shadow:0 0 40px rgba(128,128,128,0.12);">';
+                html += Math.floor(decimalYears);
+                html += '<span style="color:' + dotColor + ';font-size:0.7em;">.' + decimalYears.toFixed(DECIMAL_PLACES).split('.')[1] + '</span>';
+                html += '</div>';
+
+                // Подпись года
+                html += '<div style="font-size:22px;text-transform:uppercase;letter-spacing:6px;color:' + muted + ';margin-top:16px;margin-bottom:60px;">';
+                html += translations[currentLang].yearSubtitle(details.years);
+                html += '</div>';
+
+                // Статистика
+                html += '<div style="display:flex;gap:120px;margin-bottom:60px;color:' + statColor + ';font-size:36px;">';
+
+                html += '<div style="text-align:center;">';
+                html += '<span style="font-family:monospace;">' + details.days.toLocaleString() + '</span>';
+                html += '<div style="font-size:16px;text-transform:uppercase;letter-spacing:4px;margin-top:10px;color:' + muted + ';">' + t('days') + '</div>';
+                html += '</div>';
+
+                html += '<div style="text-align:center;">';
+                html += '<span style="font-family:monospace;">' + details.weeks.toLocaleString() + '</span>';
+                html += '<div style="font-size:16px;text-transform:uppercase;letter-spacing:4px;margin-top:10px;color:' + muted + ';">' + t('weeks') + '</div>';
+                html += '</div>';
+
+                html += '<div style="text-align:center;">';
+                html += '<span style="font-family:monospace;">' + details.months.toLocaleString() + '</span>';
+                html += '<div style="font-size:16px;text-transform:uppercase;letter-spacing:4px;margin-top:10px;color:' + muted + ';">' + t('months') + '</div>';
+                html += '</div>';
+
+                html += '</div>';
+
+                // Заголовок сетки
+                html += '<div style="font-size:20px;text-transform:uppercase;letter-spacing:5px;color:' + muted + ';margin-bottom:16px;">';
+                html += translations[currentLang].gridSummary(details.years);
+                html += '</div>';
+
+                // Сетка квадратов
+                html += '<div style="display:grid;grid-template-columns:repeat(25,28px);gap:6px;margin-bottom:16px;">';
+                for (var i = 0; i < TOTAL_SQUARES; i++) {
+                    var filled = i < details.years;
+                    html += '<div style="width:28px;height:28px;background:' + (filled ? sFilled : sEmpty) + ';';
+                    html += 'border:1px solid ' + (filled ? sFilledBorder : sBorder) + ';';
+                    if (filled) {
+                        html += 'box-shadow:0 0 8px rgba(128,128,128,0.12);';
+                    }
+                    html += '"></div>';
+                }
+                html += '</div>';
+
+                // Оптимистичный остаток
+                html += '<div style="font-size:18px;color:' + muted + ';opacity:0.8;margin-bottom:60px;">';
+                html += translations[currentLang].optimistic(Math.max(0, 80 - details.years));
+                html += '</div>';
+
+                // Цитата
+                html += '<div style="font-size:22px;font-style:italic;color:' + quoteColor + ';text-align:center;max-width:1000px;line-height:1.5;margin-bottom:12px;opacity:0.8;">';
+                html += quote.text.replace(/<br>/g, ' ');
+                html += '</div>';
+
+                html += '<div style="font-size:18px;color:' + quoteAuthorColor + ';opacity:0.8;">' + quote.author + '</div>';
+
+                // Закрывающий контейнер
+                html += '</div>';
+
+                // Вставляем в DOM
+                wrapper.innerHTML = html;
+                document.body.appendChild(wrapper);
+
+                try {
+                    // Делаем скриншот
+                    var canvas = await html2canvas(wrapper.querySelector('div'), {
+                        backgroundColor: bg,
+                        scale: 1,
+                        width: 2560,
+                        height: 1440
+                    });
+
+                    // Конвертируем в Blob
+                    return await new Promise(function(resolve) {
+                        canvas.toBlob(resolve, 'image/png');
+                    });
+                } finally {
+                    // Удаляем временный элемент
+                    document.body.removeChild(wrapper);
+                }
+            }
+
+            async function downloadScreenshot() {
+                var blob = await generateDesktopScreenshotBlob();
+                if (!blob) {
+                    showToast('Ошибка при создании скриншота');
+                    return;
+                }
+
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'memento.png';
+                a.click();
+                URL.revokeObjectURL(url);
+
+                showToast(t('toastDownloaded'));
+            }
+
+            async function shareScreenshot() {
+                var blob = await generateDesktopScreenshotBlob();
+                if (!blob) {
+                    showToast('Ошибка при создании скриншота');
+                    return;
+                }
+
+                var file = new File([blob], 'memento.png', { type: 'image/png' });
+
+                // Пробуем нативный шаринг
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            title: 'Memento',
+                            text: 'Посмотри на свою жизнь в квадратах',
+                            files: [file]
+                        });
+                    } catch (err) {
+                        // Если пользователь отменил — ничего не делаем
+                        if (err.name !== 'AbortError') {
+                            // Иначе скачиваем
+                            downloadScreenshot();
+                        }
+                    }
+                } else {
+                    // Если шаринг не поддерживается — скачиваем
+                    downloadScreenshot();
+                }
+            }
+
+            // Обработчик кнопки «Поделиться»
+            shareBtnBottom.addEventListener('click', function() {
+                if (!birthDate) {
+                    showToast(t('toastNeedCheck'));
+                    return;
+                }
+
+                generateModalQR();
+                shareModal.classList.add('open');
+            });
+
+            // Обработчик модалки
+            shareModal.addEventListener('click', async function(e) {
+                var action = e.target.dataset.action;
+                if (!action) return;
+
+                // Закрываем модалку
+                shareModal.classList.remove('open');
+
+                if (action === 'close') return;
+
+                if (action === 'copy') {
+                    // Копируем ссылку
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        showToast(t('toastCopied'));
+                    } catch (err) {
+                        showToast(window.location.href);
+                    }
+                }
+
+                if (action === 'download') {
+                    // Скачиваем PNG
+                    await downloadScreenshot();
+                }
+
+                if (action === 'share') {
+                    // Шарим
+                    await shareScreenshot();
+                }
+            });
+
+            // ============================================================
+            // ЗАВЕРШЕНИЕ РАБОТЫ
+            // ============================================================
+            window.addEventListener('beforeunload', function() {
+                stopRealtimeUpdates();
+                stopQuoteCarousel();
+            });
+
+            // ============================================================
+            // ИНИЦИАЛИЗАЦИЯ
+            // ============================================================
+            renderDayOptions();
+            renderMonthOptions();
+            renderYearOptions();
+
+            var savedDate = loadBirthDate();
+            if (savedDate) {
+                birthDate = savedDate;
+                restoreSelectsFromDate(birthDate);
+                showStatsPanel();
+            } else {
+                showInputPanel();
+            }
+        })();
+    </script>
 </body>
 </html>
